@@ -1,0 +1,33 @@
+<section data-topic="rendering" data-menu-title="Child ranges">
+  <comparison>
+    <left>
+      <h4>How child ranges work</h4>
+      <small>
+        <ul>
+          <li class="fragment">Each dynamic child node is replaced by comment anchors</li>
+          <li class="fragment">Clearing a part means removing nodes between <code>start</code> and <code>end</code></li>
+          <li class="fragment">Reusing a template means updating existing parts, not reparsing HTML</li>
+          <li class="fragment">Range movement powers keyed repeat without reconstructing every child</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+commitTemplate(result) {
+  if (this.currentTemplateInstance?.strings === result.strings) {
+    this.currentTemplateInstance.update(result.values)
+    return
+  }
+
+  clearRange(this.start, this.end)
+  const instance = new TemplateInstance(result.strings)
+  this.currentTemplateInstance = instance
+  instance.update(result.values)
+  this.start.parentNode.insertBefore(instance.fragment, this.end)
+}
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

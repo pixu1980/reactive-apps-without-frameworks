@@ -1,0 +1,38 @@
+<section data-topic="signals" data-menu-title="Scheduling">
+  <comparison>
+    <left>
+      <h4>Why microtasks matter</h4>
+      <small>
+        <ul>
+          <li class="fragment">Multiple signal invalidations in the same tick should not trigger N renders</li>
+          <li class="fragment"><code>schedule()</code> deduplicates effect collectors in a <code>Set</code></li>
+          <li class="fragment"><code>queueMicrotask()</code> flushes them once the current stack is done</li>
+          <li class="fragment">This is enough to batch render work without a heavyweight scheduler</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+function schedule(effect) {
+  scheduled.add(effect)
+  if (flushing) return
+  flushing = true
+
+  queueMicrotask(() => {
+    try {
+      while (scheduled.size > 0) {
+        const batch = [...scheduled]
+        scheduled.clear()
+        for (const job of batch) job.run()
+      }
+    } finally {
+      flushing = false
+    }
+  })
+}
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

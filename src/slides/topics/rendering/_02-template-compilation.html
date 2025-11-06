@@ -1,0 +1,38 @@
+<section data-topic="rendering" data-menu-title="Template compilation">
+  <comparison>
+    <left>
+      <h4>Compilation step</h4>
+      <small>
+        <ul>
+          <li class="fragment">Insert placeholder markers into the HTML string</li>
+          <li class="fragment">Parse once with <code>&lt;template&gt;</code> into an inert <code>DocumentFragment</code></li>
+          <li class="fragment">Walk the fragment to discover child, attribute, property and event descriptors</li>
+          <li class="fragment">Clone the fragment for each concrete instance and resolve parts by node path</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+for (let index = 0; index < strings.length - 1; index += 1) {
+  const chunk = strings[index]
+  markup += chunk
+  const attributeMatch =
+    chunk.match(/([.@]?[-\\w:]+)\\s*=\\s*(?:\"|'|)?$/)
+
+  markup += attributeMatch
+    ? `__part_${index}__`
+    : `<!--part:${index}-->`
+}
+
+const template = document.createElement('template')
+template.innerHTML = markup
+const walker = document.createTreeWalker(
+  template.content,
+  NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_COMMENT
+)
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

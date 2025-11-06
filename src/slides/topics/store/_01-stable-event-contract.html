@@ -1,0 +1,11 @@
+<section data-topic="store" data-menu-title="Store">
+  <h4>A Proxy store with a <mark>stable event contract</mark></h4>
+  <small>
+    <ul>
+      <li class="fragment">The raw state is deep-cloned once at construction time</li>
+      <li class="fragment">Nested objects are lazily wrapped in cached proxies via <code>WeakMap</code></li>
+      <li class="fragment">Each write emits one <code>CustomEvent('store:change')</code></li>
+      <li class="fragment">The emitted payload is serializable and detached from proxy internals</li>
+    </ul>
+  </small>
+</section>

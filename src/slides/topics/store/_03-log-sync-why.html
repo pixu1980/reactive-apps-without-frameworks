@@ -1,0 +1,11 @@
+<section data-topic="store" data-menu-title="Log sync">
+  <h4>Why the <mark>demo</mark> and the <mark>log</mark> stay in sync</h4>
+  <small>
+    <ul>
+      <li class="fragment">The debug panel is driven by the same <code>store:change</code> events as the rest of the runtime</li>
+      <li class="fragment">Internal writes to <code>debug.logs</code> are protected by a re-entrancy guard</li>
+      <li class="fragment">Persistence now happens after the optional debug entry is appended, so the saved snapshot matches the visible state</li>
+      <li class="fragment">Paused logging suppresses new debug entries; unpausing emits its own <code>debug.paused</code> mutation</li>
+    </ul>
+  </small>
+</section>

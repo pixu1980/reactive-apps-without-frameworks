@@ -1,0 +1,130 @@
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	min-height: 100%;
+	background:
+		radial-gradient(
+			circle at top left,
+			rgba(59, 130, 246, 0.22),
+			transparent 35%
+		),
+		radial-gradient(
+			circle at bottom right,
+			rgba(34, 211, 238, 0.18),
+			transparent 30%
+		),
+		linear-gradient(180deg, #020617 0%, #08111f 100%);
+	color: var(--text);
+}
+
+body {
+	padding: 24px;
+}
+
+[data-embed="true"] body {
+	padding: 12px;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
+
+button,
+select,
+input,
+textarea {
+	width: 100%;
+	border-radius: 14px;
+	border: 1px solid var(--border);
+	background: rgba(15, 23, 42, 0.8);
+	color: var(--text);
+	padding: 0.8rem 0.95rem;
+}
+
+button {
+	cursor: pointer;
+	background: linear-gradient(
+		135deg,
+		rgba(56, 189, 248, 0.24),
+		rgba(59, 130, 246, 0.18)
+	);
+	transition:
+		transform 160ms ease,
+		border-color 160ms ease,
+		background 160ms ease;
+}
+
+button:hover {
+	transform: translateY(-1px);
+	border-color: rgba(125, 211, 252, 0.45);
+}
+
+button.ghost {
+	background: rgba(15, 23, 42, 0.55);
+}
+
+button.danger,
+.ghost.danger {
+	border-color: rgba(251, 113, 133, 0.35);
+	color: #ffdbe2;
+}
+
+label {
+	display: grid;
+	gap: 0.45rem;
+}
+
+label > span {
+	color: var(--muted);
+	font-size: 0.85rem;
+}
+
+textarea {
+	resize: vertical;
+}
+
+.eyebrow {
+	margin: 0 0 0.5rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	font-size: 0.78rem;
+	color: var(--accent);
+}
+
+.subcopy {
+	color: var(--muted);
+	max-width: 70ch;
+}
+
+.checkline {
+	display: inline-flex;
+	gap: 8px;
+	align-items: center;
+	padding: 0.65rem 0.8rem;
+	border: 1px solid var(--border);
+	border-radius: 14px;
+	background: rgba(15, 23, 42, 0.64);
+}
+
+.checkline input {
+	width: auto;
+	margin: 0;
+	padding: 0;
+}
+
+.checkline span {
+	color: var(--muted);
+}
+
+.compact-inline {
+	padding: 0.25rem 0;
+	border: 0;
+	background: transparent;
+}

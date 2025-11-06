@@ -1,0 +1,23 @@
+<section data-topic="store" data-menu-title="Event payloads">
+  <comparison>
+    <left>
+      <h4>Field-level mutations</h4>
+      <small>
+        <ul>
+          <li class="fragment"><code>draft.title</code> and <code>filters.search</code> log exactly one field path per keystroke</li>
+          <li class="fragment">They are produced by <code>store.set(path, value)</code> through the <code>model</code> directive</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <h4>Todo item mutations</h4>
+      <small>
+        <ul>
+          <li class="fragment"><code>updateTodo()</code> replaces one array item with a patched object</li>
+          <li class="fragment">The log therefore shows paths like <code>todos.1</code>, not <code>todos.1.title</code></li>
+          <li class="fragment">That is a conscious simplification: predictable patches over deep structural tracking</li>
+        </ul>
+      </small>
+    </right>
+  </comparison>
+</section>

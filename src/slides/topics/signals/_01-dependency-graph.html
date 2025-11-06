@@ -1,0 +1,11 @@
+<section data-topic="signals" data-menu-title="Signals">
+  <h4>Signals: a tiny <mark>dependency graph</mark></h4>
+  <small>
+    <ul>
+      <li class="fragment"><code>Signal.State</code> owns mutable state plus an equality strategy</li>
+      <li class="fragment"><code>Signal.Computed</code> tracks dependencies by observing who calls <code>.get()</code></li>
+      <li class="fragment"><code>effect()</code> is just a collector whose callback is re-scheduled when dependencies invalidate</li>
+      <li class="fragment">There is no scheduler framework here, only a microtask queue and sets of subscribers</li>
+    </ul>
+  </small>
+</section>

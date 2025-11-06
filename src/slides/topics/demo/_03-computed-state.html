@@ -1,0 +1,30 @@
+<section data-topic="demo" data-menu-title="Computed state">
+  <comparison>
+    <left>
+      <h4>Computed graph</h4>
+      <small>
+        <ul>
+          <li class="fragment"><code>visibleTodos</code> filters and sorts from raw store state</li>
+          <li class="fragment"><code>summary</code> derives counts once and feeds smaller computed signals</li>
+          <li class="fragment"><code>visibleLabel</code> turns machine state into UI copy</li>
+          <li class="fragment"><code>debugLogs</code> exposes the current event panel payload</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+export const visibleTodos = new Signal.Computed(() => {
+  appVersion.get()
+  return pipelineTodos(store.state.todos, store.state.filters)
+})
+
+export const summary = new Signal.Computed(() => {
+  appVersion.get()
+  // derive total, completed, open, selected, visible
+})
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

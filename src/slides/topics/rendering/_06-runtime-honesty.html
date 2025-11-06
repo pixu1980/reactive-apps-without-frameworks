@@ -1,0 +1,11 @@
+<section data-topic="rendering" data-menu-title="Runtime honesty">
+  <h4>What gets updated on every <mark>store write</mark>?</h4>
+  <small>
+    <ul>
+      <li class="fragment">The root effect re-runs <code>appView()</code></li>
+      <li class="fragment">Template instances with the same shape are reused</li>
+      <li class="fragment">Only the parts that see changed values commit DOM updates</li>
+      <li class="fragment">So the render function is coarse, but DOM mutation is still localized</li>
+    </ul>
+  </small>
+</section>

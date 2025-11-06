@@ -1,0 +1,11 @@
+<section data-topic="runtime" data-menu-title="Architecture">
+  <h4>End-to-end write path</h4>
+  <small>
+    <ul>
+      <li class="fragment"><mark>Write</mark>: <code>store.set('filters.search', value)</code> or an action replacing a todo object</li>
+      <li class="fragment"><mark>Observe</mark>: the Proxy emits one normalized event payload</li>
+      <li class="fragment"><mark>Bridge</mark>: the event listener updates persistence, debug log and invalidation state</li>
+      <li class="fragment"><mark>Render</mark>: the root effect re-runs the view, but parts reuse existing DOM nodes</li>
+    </ul>
+  </small>
+</section>

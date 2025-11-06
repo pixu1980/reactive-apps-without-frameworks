@@ -1,0 +1,28 @@
+<section data-topic="runtime" data-menu-title="Architecture">
+  <comparison>
+    <left>
+      <h4>Repository map</h4>
+      <small>
+        <ul>
+          <li class="fragment"><mark>src/demo/scripts/core/store/*</mark> Proxy tree, snapshot cloning, <code>store:change</code> emission</li>
+          <li class="fragment"><mark>src/demo/scripts/core/signals/*</mark> <code>State</code>, <code>Computed</code>, dependency tracking, microtask effects</li>
+          <li class="fragment"><mark>src/demo/scripts/core/template-engine/*</mark> template compilation, parts, directives, keyed repeat</li>
+          <li class="fragment"><mark>src/demo/scripts/state/*</mark> store setup, computed selectors, actions, persistence bridge</li>
+          <li class="fragment"><mark>src/demo/scripts/views/app/*</mark> app shell subcomponents, panels and debug surface</li>
+          <li class="fragment"><mark>src/demo/scripts/data/*</mark> seed state, generator filters, sorting pipeline</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <h4>Data flow</h4>
+      <small>
+        <ul>
+          <li class="fragment">A user action calls a store mutation or an action function</li>
+          <li class="fragment">The store emits a <code>store:change</code> event with <code>path</code>, <code>oldValue</code>, <code>newValue</code></li>
+          <li class="fragment">The state bridge persists the snapshot, appends a debug entry, then bumps <code>appVersion</code></li>
+          <li class="fragment">Signals and template parts update the minimum DOM needed for the new view state</li>
+        </ul>
+      </small>
+    </right>
+  </comparison>
+</section>

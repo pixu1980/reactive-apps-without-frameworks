@@ -1,0 +1,43 @@
+<section data-topic="store" data-menu-title="Store internals">
+  <comparison>
+    <left>
+      <h4>Platform APIs in play</h4>
+      <small>
+        <ul>
+          <li class="fragment"><mark>Proxy</mark> intercepts <code>get</code>, <code>set</code> and <code>deleteProperty</code></li>
+          <li class="fragment"><mark>Reflect</mark> preserves native object semantics</li>
+          <li class="fragment"><mark>WeakMap</mark> keeps proxy identity stable across repeated reads</li>
+          <li class="fragment"><mark>CustomEvent</mark> transports mutation metadata through the browser event system</li>
+          <li class="fragment"><mark>localStorage</mark> stores the snapshot, not framework-owned hidden state</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+createProxy(target, path) {
+  if (this.proxyCache.has(target))
+    return this.proxyCache.get(target)
+
+  const proxy = new Proxy(target, {
+    get: (raw, key, receiver) => {
+      const value = Reflect.get(raw, key, receiver)
+      return isObject(value)
+        ? this.createProxy(value, [...path, key])
+        : value
+    },
+    set: (raw, key, value, receiver) => {
+      const nextPath = [...path, key]
+      const oldValue = raw[key]
+      const prepared = clonePlainValue(value)
+      const result = Reflect.set(raw, key, prepared, receiver)
+      if (oldValue !== prepared)
+        this.emitChange(nextPath, oldValue, prepared)
+      return result
+    }
+  })
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

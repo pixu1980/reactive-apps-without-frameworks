@@ -1,0 +1,39 @@
+<section data-topic="signals" data-menu-title="Dependency tracking">
+  <comparison>
+    <left>
+      <h4>How dependency collection works</h4>
+      <small>
+        <ul>
+          <li class="fragment"><mark>collectorStack</mark> keeps track of the currently executing computed or effect</li>
+          <li class="fragment">Any signal read during that execution registers itself as a dependency</li>
+          <li class="fragment"><code>Computed</code> instances unsubscribe from stale dependencies before recomputing</li>
+          <li class="fragment">The graph is rebuilt from reads, not declared up front</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+track() {
+  const current =
+    collectorStack[collectorStack.length - 1]
+  if (current) current.addDependency(this)
+}
+
+evaluate() {
+  if (!this.dirty) return this.cached
+  this.cleanupDependencies()
+  collectorStack.push(this)
+  try {
+    this.cached = this.compute()
+    this.dirty = false
+    return this.cached
+  } finally {
+    collectorStack.pop()
+  }
+}
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

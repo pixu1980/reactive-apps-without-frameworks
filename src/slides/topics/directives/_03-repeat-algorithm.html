@@ -1,0 +1,40 @@
+<section data-topic="directives" data-menu-title="repeat">
+  <comparison>
+    <left>
+      <h4>The <code>repeat</code> algorithm</h4>
+      <small>
+        <ul>
+          <li class="fragment">Iterate the next list from the end so insertion can happen before a stable reference node</li>
+          <li class="fragment">Reuse an existing block when the key is already known</li>
+          <li class="fragment">Move the block range if its current DOM position is wrong</li>
+          <li class="fragment">Create new blocks for unseen keys and remove blocks for vanished keys</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+for (let index = list.length - 1; index >= 0; index -= 1) {
+  const item = list[index]
+  const itemKey = key(item)
+  let block = state.blocks.get(itemKey)
+
+  if (!block) {
+    block = createBlock(itemKey, referenceNode)
+    block.part.setValue(renderItem(item))
+  } else {
+    if (!isRangeBeforeReference(block.start, block.end, referenceNode))
+      moveRangeBefore(block.start, block.end, referenceNode)
+    if (block.item !== item)
+      block.part.setValue(renderItem(item))
+  }
+
+  block.item = item
+  nextBlocks.set(itemKey, block)
+  referenceNode = block.start
+}
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

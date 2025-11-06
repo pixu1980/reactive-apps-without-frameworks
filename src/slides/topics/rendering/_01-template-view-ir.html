@@ -1,0 +1,11 @@
+<section data-topic="rendering" data-menu-title="Templates">
+  <h4>Tagged templates as a <mark>view IR</mark></h4>
+  <small>
+    <ul>
+      <li class="fragment"><code>html(strings, ...values)</code> does not render immediately</li>
+      <li class="fragment">It returns a <code>template-result</code> record with static shape plus dynamic values</li>
+      <li class="fragment">The static <code>strings</code> array is a stable cache key for template compilation</li>
+      <li class="fragment">This gives us JSX-like ergonomics without a compiler or a virtual DOM</li>
+    </ul>
+  </small>
+</section>

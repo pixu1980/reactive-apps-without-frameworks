@@ -1,0 +1,24 @@
+<section data-topic="runtime" data-menu-title="Granularity">
+  <comparison>
+    <left>
+      <h4>Fine-grained parts</h4>
+      <small>
+        <ul>
+          <li class="fragment">Signals only notify their own subscribers</li>
+          <li class="fragment">Computed values lazily rebuild dependencies</li>
+          <li class="fragment">Parts update ranges, attributes, properties or listeners in place</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <h4>Deliberately coarse parts</h4>
+      <small>
+        <ul>
+          <li class="fragment">The store does not track field-level reactive dependencies</li>
+          <li class="fragment"><code>appVersion</code> is a blunt invalidation bridge from store writes to the UI graph</li>
+          <li class="fragment">This is acceptable here because DOM reuse still keeps actual updates local</li>
+        </ul>
+      </small>
+    </right>
+  </comparison>
+</section>
