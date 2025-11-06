@@ -1,0 +1,54 @@
+<section>
+  <section data-transition="convex">
+    <h4>Wrapping <mark>up</mark></h4>
+    <small balance>
+      The DOM can move back to the center of the rendering story. Signals, parts and tagged templates are enough to build a reactive app, as long as we stay honest about the missing abstractions and the engineering cost.
+    </small>
+  </section>
+  <section data-transition="convex">
+    <comparison>
+      <left>
+        <h4>Strengths</h4>
+        <small>
+          <ul>
+            <li class="fragment"><mark>DOM-first rendering</mark>, with node reuse instead of virtual tree diffing</li>
+            <li class="fragment"><mark>Small surface area</mark>, so the runtime stays readable and debuggable</li>
+            <li class="fragment"><mark>Concrete DX</mark>, with signals, directives and expressive templates</li>
+            <li class="fragment"><mark>Observable state</mark>, because every write has a path and an event payload</li>
+          </ul>
+        </small>
+      </left>
+      <right>
+        <h4>Tradeoffs</h4>
+        <small>
+          <ul>
+            <li class="fragment">The standards story is still <mark>evolving</mark>, so some primitives are emulated</li>
+            <li class="fragment">The runtime still needs <mark>real engineering</mark>, not just enthusiasm</li>
+            <li class="fragment">It is easy to accidentally rebuild framework complexity in a worse form</li>
+            <li class="fragment">Great as a learning base, not as a universal dogma</li>
+          </ul>
+        </small>
+      </right>
+    </comparison>
+  </section>
+  <section data-transition="convex">
+    <h4>Technical lessons from the <mark>demo</mark></h4>
+    <small>
+      <ul>
+        <li class="fragment">A coarse invalidation bridge can still produce incremental DOM updates if parts stay stable</li>
+        <li class="fragment"><code>model</code> on <code>&lt;select&gt;</code> needs post-render resync because options materialize after the binding</li>
+        <li class="fragment">A live event log is only useful if it describes the final persisted state, not an intermediate one</li>
+        <li class="fragment">Small runtimes make bugs easier to understand because the entire stack still fits in your head</li>
+      </ul>
+    </small>
+  </section>
+  <section data-transition="convex">
+    <h4>References and <mark>status</mark></h4>
+    <small balance>
+      This deck runs on Reveal.js <mark>6.0.0</mark>. The talk borrows ideas from TC39 Signals and the DOM Parts proposal, but the code you saw is an explicit, local implementation built for learning and experimentation.
+    </small>
+  </section>
+  <section data-transition="convex">
+    <p balance>Vanilla JS is not about giving up DX. It is about understanding which abstractions are essential, which are optional, and how far the platform can already take us.</p>
+  </section>
+</section>

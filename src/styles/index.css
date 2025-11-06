@@ -1,0 +1,26 @@
+@import "npm:@pixu-talks/fonts";
+@import "npm:@pixu-talks/theme";
+
+/* biome-ignore lint/correctness/noUnknownTypeSelector: custom slide element used across the deck */
+comparison {
+	align-items: start;
+}
+
+.code-stack {
+	display: grid;
+	gap: 1rem;
+}
+
+.demo-embed {
+	width: 100%;
+	min-height: 34rem;
+	border: 0;
+	border-radius: 1rem;
+	background: #08111f;
+}
+
+@media (max-width: 960px) {
+	.demo-embed {
+		min-height: 28rem;
+	}
+}

@@ -1,0 +1,30 @@
+<section data-topic="directives" data-menu-title="model">
+  <comparison>
+    <left>
+      <h4>The <code>model</code> contract</h4>
+      <small>
+        <ul>
+          <li class="fragment"><code>get()</code> reads from the store or from a specific todo item</li>
+          <li class="fragment"><code>set(value)</code> writes back through <code>store.set()</code> or an action</li>
+          <li class="fragment"><code>signal</code> decides when the DOM control should resync</li>
+          <li class="fragment"><code>event</code> and <code>prop</code> let the binding target text inputs, checkboxes and selects</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+export function todoModel(todoId, field, options = {}) {
+  return model({
+    signal: appVersion,
+    get: () => getTodoById(todoId)?.[field]
+      ?? (options.prop === 'checked' ? false : ''),
+    set: (value) => updateTodo(todoId, { [field]: value }),
+    ...options,
+  })
+}
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

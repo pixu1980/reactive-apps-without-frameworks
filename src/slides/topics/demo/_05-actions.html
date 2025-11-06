@@ -1,0 +1,33 @@
+<section data-topic="demo" data-menu-title="Actions">
+  <comparison>
+    <left>
+      <h4>Action strategy</h4>
+      <small>
+        <ul>
+          <li class="fragment"><code>addTodo()</code> prepends a new object and resets the draft</li>
+          <li class="fragment"><code>updateTodo()</code> patches by replacing one todo object</li>
+          <li class="fragment"><code>toggleAllSelected()</code>, <code>deleteSelected()</code>, <code>deleteCompleted()</code> operate on the whole array</li>
+          <li class="fragment"><code>resetDemo()</code> replaces the entire store with fresh seed data</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+export function updateTodo(id, patch) {
+  const index = store.state.todos.findIndex(
+    (todo) => todo.id === id
+  )
+  if (index < 0) return
+
+  const current = store.state.todos[index]
+  store.state.todos[index] = {
+    ...current,
+    ...patch,
+  }
+}
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

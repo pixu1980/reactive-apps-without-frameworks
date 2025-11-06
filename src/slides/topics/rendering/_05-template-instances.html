@@ -1,0 +1,33 @@
+<section data-topic="rendering" data-menu-title="Template instances">
+  <comparison>
+    <left>
+      <h4>Why there is no VDOM here</h4>
+      <small>
+        <ul>
+          <li class="fragment">The static tree is compiled once and cached by <code>strings</code></li>
+          <li class="fragment">Instances clone DOM fragments directly, not virtual nodes</li>
+          <li class="fragment">Updates are dispatched to concrete parts with concrete DOM references</li>
+          <li class="fragment">The runtime never needs a generic "diff every child" pass</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+export function render(result, container) {
+  let rootPart = container.__rootPart
+  if (!rootPart) {
+    const start = document.createComment('root:start')
+    const end = document.createComment('root:end')
+    container.textContent = ''
+    container.append(start, end)
+    rootPart = new ChildNodePart(start, end)
+    container.__rootPart = rootPart
+  }
+  rootPart.setValue(result)
+}
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

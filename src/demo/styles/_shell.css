@@ -1,0 +1,102 @@
+.demo-shell {
+	display: grid;
+	gap: 20px;
+}
+
+.card {
+	border: 1px solid var(--border);
+	background: var(--panel);
+	box-shadow: var(--shadow);
+	border-radius: 24px;
+}
+
+.glass {
+	backdrop-filter: blur(12px);
+}
+
+.demo-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 22px 24px;
+}
+
+.demo-header h1 {
+	margin: 0;
+	font-size: clamp(1.6rem, 3vw, 2.6rem);
+}
+
+.header-actions {
+	display: flex;
+	gap: 10px;
+	width: min(340px, 100%);
+}
+
+.stats-row {
+	display: grid;
+	gap: 14px;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.stat {
+	padding: 18px;
+	display: grid;
+	gap: 0.3rem;
+}
+
+.stat strong {
+	font-size: clamp(1.5rem, 2vw, 2.2rem);
+}
+
+.stat span {
+	color: var(--muted);
+}
+
+.workspace-grid {
+	display: grid;
+	gap: 18px;
+	grid-template-columns: minmax(280px, 340px) minmax(0, 1fr) minmax(
+			280px,
+			360px
+		);
+	align-items: start;
+}
+
+.left-column,
+.right-column {
+	display: grid;
+	gap: 18px;
+}
+
+.panel {
+	padding: 18px;
+	display: grid;
+	gap: 14px;
+}
+
+.panel h2,
+.list-head h2 {
+	margin: 0;
+	font-size: 1.05rem;
+}
+
+.form-grid,
+.button-grid {
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.list-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 16px;
+	margin-bottom: 12px;
+}
+
+.list-head p {
+	color: var(--muted);
+	margin: 0;
+}

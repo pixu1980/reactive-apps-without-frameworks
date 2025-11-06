@@ -1,0 +1,74 @@
+.todo-list {
+	display: grid;
+	gap: 14px;
+}
+
+.todo-card {
+	padding: 18px;
+	border-radius: 22px;
+	border: 1px solid var(--border);
+	background: var(--panel-soft);
+	display: grid;
+	gap: 14px;
+	box-shadow: 0 14px 40px rgba(2, 6, 23, 0.2);
+}
+
+.todo-card.is-done {
+	opacity: 0.8;
+}
+
+.todo-main {
+	display: grid;
+	grid-template-columns: auto auto minmax(0, 1fr);
+	gap: 10px;
+	align-items: center;
+}
+
+.todo-title {
+	font-size: 1.05rem;
+}
+
+.todo-meta-grid {
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.notes-box textarea {
+	min-height: 92px;
+}
+
+.todo-footer {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	align-items: center;
+}
+
+.priority-chip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 88px;
+	padding: 0.45rem 0.7rem;
+	border-radius: 999px;
+	border: 1px solid var(--border);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	font-size: 0.72rem;
+}
+
+.priority-chip.low {
+	color: #c7f9cc;
+	border-color: rgba(52, 211, 153, 0.4);
+}
+
+.priority-chip.medium {
+	color: #fde68a;
+	border-color: rgba(251, 191, 36, 0.42);
+}
+
+.priority-chip.high {
+	color: #fecdd3;
+	border-color: rgba(251, 113, 133, 0.42);
+}

@@ -1,0 +1,38 @@
+<section>
+  <section>
+    <h4>What are we going to <br /><mark>build and dissect</mark> today?</h4>
+  </section>
+  <section>
+    <h4>The <mark>runtime core</mark></h4>
+    <small>
+      <ul>
+        <li class="fragment"><mark>Signals</mark> for local dependency graphs, computed values and effect scheduling</li>
+        <li class="fragment"><mark>Proxy Store</mark> for path-aware mutations and a stable <code>store:change</code> contract</li>
+        <li class="fragment"><mark>DOM Parts</mark> for persistent update slots instead of full tree replacement</li>
+        <li class="fragment"><mark>Tagged Templates</mark> for declarative views without JSX or a compiler step</li>
+      </ul>
+    </small>
+  </section>
+  <section>
+    <h4>The <mark>rendering pipeline</mark></h4>
+    <small>
+      <ul>
+        <li class="fragment"><mark>model</mark> as a tiny two-way binding directive with explicit <code>get</code>/<code>set</code></li>
+        <li class="fragment"><mark>repeat</mark> as keyed range reuse for long lists and stable DOM nodes</li>
+        <li class="fragment"><mark>Generator pipelines</mark> for lazy filtering before final materialization</li>
+        <li class="fragment"><mark>Template caching</mark> via the stable identity of template literal <code>strings</code></li>
+      </ul>
+    </small>
+  </section>
+  <section>
+    <h4>From primitives to a <mark>real demo</mark></h4>
+    <small>
+      <ul>
+        <li class="fragment">A Todo app with draft state, filters, category management and bulk actions</li>
+        <li class="fragment">A live <code>store:change</code> panel wired to the same runtime as the app itself</li>
+        <li class="fragment">Persistence through <code>localStorage</code>, not through hidden framework state</li>
+        <li class="fragment">A few subtle bugs that reveal where the runtime still needs engineering discipline</li>
+      </ul>
+    </small>
+  </section>
+</section>

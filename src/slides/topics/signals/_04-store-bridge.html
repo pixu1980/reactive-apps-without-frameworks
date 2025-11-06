@@ -1,0 +1,11 @@
+<section data-topic="signals" data-menu-title="Store bridge">
+  <h4><code>appVersion</code> is the <mark>bridge</mark>, not the final dream</h4>
+  <small>
+    <ul>
+      <li class="fragment">The store is event-based, not signal-native</li>
+      <li class="fragment">The bridge signal uses <code>equals: () =&gt; false</code> so every store write invalidates dependents</li>
+      <li class="fragment"><code>visibleTodos</code>, <code>summary</code>, <code>debugLogs</code> and the root render effect all read it</li>
+      <li class="fragment">This is a coarse invalidation strategy, but it keeps the integration explicit and easy to reason about</li>
+    </ul>
+  </small>
+</section>

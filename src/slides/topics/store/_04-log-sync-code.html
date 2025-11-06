@@ -1,0 +1,30 @@
+<section data-topic="store" data-menu-title="Log sync">
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+window.addEventListener('store:change', (event) => {
+  if (isWritingDebugLog) return
+
+  if (!store.state.debug.paused &&
+      event.detail.path !== 'debug.logs') {
+    isWritingDebugLog = true
+    try {
+      store.state.debug.logs = [
+        {
+          id: crypto.randomUUID(),
+          timestamp: new Date().toLocaleTimeString('en-GB'),
+          ...event.detail,
+        },
+        ...store.state.debug.logs,
+      ].slice(0, 30)
+    } finally {
+      isWritingDebugLog = false
+    }
+  }
+
+  localStorage.setItem(STORAGE_KEY,
+    JSON.stringify(store.snapshot()))
+  appVersion.set(performance.now())
+})
+    </code></pre>
+  </article>
+</section>

@@ -1,0 +1,20 @@
+<section data-topic="directives" data-menu-title="Composition">
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+repeat(visibleTodos, (todo) => todo.id, (todo) => html`
+  &lt;article class=${todo.completed ? 'todo-card is-done' : 'todo-card'}&gt;
+    &lt;input class="todo-title"
+      model=${todoModel(todo.id, 'title')} /&gt;
+
+    ${categorySelect(
+      todoModel(todo.id, 'category', { event: 'change' })
+    )}
+
+    &lt;select model=${todoModel(todo.id, 'priority', { event: 'change' })}&gt;
+      ${priorityOptions()}
+    &lt;/select&gt;
+  &lt;/article&gt;
+`)
+    </code></pre>
+  </article>
+</section>

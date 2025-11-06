@@ -1,0 +1,26 @@
+<section data-topic="demo" data-menu-title="State shape">
+  <comparison>
+    <left>
+      <h4>Persistent state</h4>
+      <small>
+        <ul>
+          <li class="fragment"><code>todos</code> array with title, notes, category, priority, due date, completion and selection flags</li>
+          <li class="fragment"><code>categories</code> list reused by draft form and todo cards</li>
+          <li class="fragment"><code>draft</code> values for quick add</li>
+          <li class="fragment"><code>filters</code> for search, category, status, priority and sorting</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <h4>Ephemeral-but-visible state</h4>
+      <small>
+        <ul>
+          <li class="fragment"><code>debug.paused</code> toggles the event panel</li>
+          <li class="fragment"><code>debug.logs</code> stores the latest 30 mutation entries</li>
+          <li class="fragment"><code>appVersion</code> is the render invalidation bridge</li>
+          <li class="fragment"><code>summary</code>, <code>visibleTodos</code> and <code>debugLogs</code> are computed selectors over the store</li>
+        </ul>
+      </small>
+    </right>
+  </comparison>
+</section>

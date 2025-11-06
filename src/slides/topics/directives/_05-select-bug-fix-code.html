@@ -1,0 +1,21 @@
+<section data-topic="directives" data-menu-title="Bug fix">
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+const syncAfterRender = () => {
+  sync()
+  if (this.element instanceof HTMLSelectElement) {
+    queueMicrotask(() => {
+      if (this._modelBinding === binding) sync()
+    })
+  }
+}
+
+if (config.signal && isSignalLike(config.signal)) {
+  this.bindSignal(config.signal, syncAfterRender)
+  return
+}
+
+syncAfterRender()
+    </code></pre>
+  </article>
+</section>

@@ -1,0 +1,34 @@
+<section data-topic="demo" data-menu-title="Filtering pipeline">
+  <comparison>
+    <left>
+      <h4>Generator-first filtering</h4>
+      <small>
+        <ul>
+          <li class="fragment">Each filter is a generator that yields only matching items</li>
+          <li class="fragment">Search, category, status and priority are composed before sorting</li>
+          <li class="fragment">Materialization only happens at the sort step</li>
+          <li class="fragment">That keeps the pipeline explicit and cheap to inspect</li>
+        </ul>
+      </small>
+    </left>
+    <right>
+      <article class="code-stack">
+        <pre><code data-trim data-line-numbers class="hljs javascript">
+export function pipelineTodos(todos, filters) {
+  const iterator = filterByPriority(
+    filterByStatus(
+      filterByCategory(
+        filterBySearch(fromArray(todos), filters.search),
+        filters.category
+      ),
+      filters.status
+    ),
+    filters.priority
+  )
+  return sortTodos(iterator, filters.sortBy, filters.sortDir)
+}
+        </code></pre>
+      </article>
+    </right>
+  </comparison>
+</section>

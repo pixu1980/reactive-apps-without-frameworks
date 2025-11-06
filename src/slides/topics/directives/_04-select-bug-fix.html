@@ -1,0 +1,11 @@
+<section data-topic="directives" data-menu-title="Bug fix">
+  <h4>A subtle bug: <code>&lt;select&gt;</code> values can desync during <mark>initial render</mark></h4>
+  <small>
+    <ul>
+      <li class="fragment">In a template like <code>&lt;select model=\${...}&gt;\${options}&lt;/select&gt;</code>, the binding part is visited before the child options part</li>
+      <li class="fragment">That means the binding can set <code>select.value</code> before the matching <code>&lt;option&gt;</code> exists in the DOM</li>
+      <li class="fragment">The fix is pragmatic: for <code>HTMLSelectElement</code>, sync immediately and then resync in a microtask after the render pass completes</li>
+      <li class="fragment">This is exactly the kind of edge case a tiny runtime exposes very clearly</li>
+    </ul>
+  </small>
+</section>

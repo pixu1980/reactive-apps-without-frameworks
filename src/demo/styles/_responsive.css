@@ -1,0 +1,34 @@
+@media (max-width: 1180px) {
+	.workspace-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.right-column {
+		order: 3;
+	}
+
+	.stats-row {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 780px) {
+	body {
+		padding: 14px;
+	}
+
+	.demo-header,
+	.list-head,
+	.demo-header .header-actions,
+	.todo-main,
+	.todo-meta-grid,
+	.form-grid,
+	.button-grid {
+		grid-template-columns: 1fr;
+		flex-direction: column;
+	}
+
+	.stats-row {
+		grid-template-columns: 1fr 1fr;
+	}
+}
