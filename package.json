@@ -1,6 +1,6 @@
 {
 	"name": "reactive-apps-without-frameworks",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"license": "MIT",
 	"private": true,
 	"scripts": {
@@ -10,7 +10,7 @@
 		"prestart": "pnpm run clear",
 		"start": "parcel src/index.html -p 6001",
 		"prebuild": "pnpm run clear",
-		"build": "parcel build src/index.html --public-url ./ && git add . && git commit --amend --no-edit && git push -f",
+		"build": "parcel build src/index.html --public-url https://pixu1980.github.io/reactive-apps-without-frameworks/ && git add . && git commit --amend --no-edit && git push -f",
 		"rel:push": "git push && git push --tags",
 		"rel:major": "pnpm run build && pnpm version major -m \"rel(%s)\" && pnpm run rel:push",
 		"rel:minor": "pnpm run build && pnpm version minor -m \"rel(%s)\" && pnpm run rel:push",
