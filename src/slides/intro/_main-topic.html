@@ -1,6 +1,9 @@
 <section>
   <section>
-    <h3><mark>Meme</mark> and <br> <mark>Bold Opinions</mark> time</h3>
+    <h3>
+      <mark>Meme</mark> and <br />
+      <mark>Bold Opinions</mark> time
+    </h3>
   </section>
   <section>
     <h3>What about <mark>frameworks</mark>?</h3>
@@ -25,10 +28,7 @@
   </section>
   <section>
     <h3>What about the <mark>Web APIs</mark>?</h3>
-    <p balance class="fragment">
-      A custom implementation of <mark>a reactive runtime</mark> built on top of modern Web APIs and TC39 Proposals...  
-    </p>
-  </p>
+    <p balance class="fragment">A custom implementation of <mark>a reactive runtime</mark> built on top of modern Web APIs and TC39 Proposals...</p>
   </section>
   <section>
     <p balance>...without shipping <mark>anything else than vanillaJS</mark> runtime code:</p>
@@ -53,7 +53,8 @@
   <section>
     <h3>What about <mark>the demo</mark>?</h3>
     <p balance class="fragment">
-      A Todo List app with: <mark>categories</mark>, <mark>priorities</mark>, <mark>persistence</mark>, <mark>filters</mark>, <mark>bulk actions</mark> and a <mark>live event log</mark> to show the inner workings of the runtime and UI.
+      A Todo List app with: <mark>categories</mark>, <mark>priorities</mark>, <mark>persistence</mark>, <mark>filters</mark>, <mark>bulk actions</mark> and a <mark>live event log</mark> to show the
+      inner workings of the runtime and UI.
     </p>
   </section>
   <section>
@@ -66,6 +67,26 @@
     <figure class="fragment">
       <img src="./assets/meme/luke-thats-impossible.gif" alt="Luke Skywalker saying 'That's impossible'" width="60%" />
     </figure>
+  </section>
+  <section>
+    <h3>Scope and <mark>honesty</mark></h3>
+    <small balance>
+      <ul>
+        <li class="fragment">This is <mark>not</mark> a framework replacement manifesto</li>
+        <li class="fragment">This is a <mark>tiny runtime</mark> to study data flow, rendering and tradeoffs</li>
+        <li class="fragment">This is <mark>not</mark> a tested production-ready solution</li>
+      </ul>
+    </small>
+  </section>
+  <section>
+    <h3><mark>DevX</mark></h3>
+    <small balance>
+      <ul>
+        <li class="fragment">Build a <mark>reactive UI stack</mark> from platform primitives, not from framework abstractions</li>
+        <li class="fragment">Centralize a <mark>Store</mark> emitting <mark>CustomEvents</mark>, sync with <mark>Signals</mark> to target precise <mark>DOM parts</mark> updates instead of diffing the whole tree</li>
+        <li class="fragment">Keep view authoring expressive with <mark>tagged templates</mark>, <mark>conditionals</mark>, <mark>directives</mark> and <mark>keyed loop</mark></li>
+      </ul>
+    </small>
   </section>
   <section>
     <h2>

@@ -1,25 +1,22 @@
 <section data-topic="template-engine" data-menu-title="template runtime">
-  <h4 balance><code>_template.js</code>: the composition root that turns helpers and instances into rendering</h4>
+  <h4 balance><mark>_template.js</mark>: the composition root that turns helpers and instances into rendering</h4>
   <small balance>
-    This file is where the engine becomes usable. It wires the concrete <code>TemplateInstance</code> class into the registry, reexports the helper surface, and gives us a <code>render()</code> function that keeps one stable root part per container.
+    This file is where the engine becomes usable. It wires the concrete <mark>TemplateInstance</mark> class into the registry, reexports the helper surface, and gives us a
+    <mark>render()</mark> function that keeps one stable root part per container.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>setTemplateInstanceClass(TemplateInstance)</code> happens once at module load, which closes the loop opened by <code>_template-instance-ref.js</code></li>
-          <li class="fragment">The file reexports <code>directive</code>, <code>html</code>, <code>isDirective</code>, <code>model</code>, and <code>repeat</code>, so consumers do not have to know about the helpers module directly</li>
-          <li class="fragment"><code>render()</code> creates one pair of root comments and one root <code>ChildNodePart</code> the first time a container is used</li>
-          <li class="fragment">Every later render reuses that root part, which means the container itself stays stable and only the controlled range changes</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="template-engine">
+  <h4 balance><mark>Template</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// setTemplateInstanceClass(TemplateInstance)
+// closes the loop opened by template-instance-ref.
 setTemplateInstanceClass(TemplateInstance)
 
 export function render(result, container) {
+  // render() creates one root ChildNodePart
+  // the first time a container is used.
   let rootPart = container.__rootPart
   if (!rootPart) {
     const start = document.createComment("root:start")
@@ -29,10 +26,10 @@ export function render(result, container) {
     rootPart = new ChildNodePart(start, end)
     container.__rootPart = rootPart
   }
+  // Every later render reuses that root part,
+  // so only the controlled range changes.
   rootPart.setValue(result)
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

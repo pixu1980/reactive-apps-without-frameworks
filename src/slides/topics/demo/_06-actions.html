@@ -1,26 +1,22 @@
 <section data-topic="demo" data-menu-title="Actions">
-  <h4 balance><code>state/_actions.js</code>: the hands that move the toys</h4>
+  <h4 balance><mark>Actions.js</mark>: the hands that move the toys</h4>
   <small balance>
-    Actions are the places where the app says "change the world now". They are boring on purpose: find something, replace it, add it, remove it, or rebuild the whole state from the seed.
+    Actions are the places where the app says <mark>"change the world now"</mark>. They are <mark>boring on purpose</mark>: find something, replace it, add it, remove it, or <mark>rebuild the whole state</mark> from the seed.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>updateTodo()</code> finds one item and replaces it with a patched copy</li>
-          <li class="fragment"><code>addTodo()</code> turns the shared draft into a new todo, then resets the draft for the next creation</li>
-          <li class="fragment"><code>deleteSelected()</code>, <code>deleteCompleted()</code>, and friends operate on whole arrays with plain <code>map()</code> or <code>filter()</code></li>
-          <li class="fragment"><code>resetDemo()</code> replaces the entire state tree while keeping the current preferences</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>Actions</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export function updateTodo(id, patch) {
-  const index = store.state.todos.findIndex((todo) => todo.id === id)
-  if (index &lt; 0) return
+  // updateTodo() finds one item and replaces
+  // it with a patched copy.
+  const index = store.state.todos.findIndex(
+    (todo) => todo.id === id,
+  )
+  if (index > 0) return
   const current = store.state.todos[index]
+
   store.state.todos[index] = {
     ...current,
     ...patch,
@@ -28,15 +24,17 @@ export function updateTodo(id, patch) {
 }
 
 export function resetDemo() {
+  // resetDemo() replaces the whole state tree
+  // while keeping the current preferences.
   const { preferences } = store.snapshot()
+
   store.replace({
     ...createSeedData(),
     preferences: { ...preferences },
   })
+
   tickState.set(performance.now())
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

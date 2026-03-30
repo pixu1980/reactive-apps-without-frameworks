@@ -1,23 +1,14 @@
 <section data-topic="demo" data-menu-title="model() helpers">
-  <h4 balance><code>helpers/_helpers.js</code>: two tiny translators for all our inputs</h4>
-  <small balance>
-    We do not want every text field and checkbox to remember how to read and write the store. So the app builds two small helpers, and then reuses them everywhere.
-  </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>storeModel(path)</code> is the generic translator for fields like <code>filters.search</code> or <code>preferences.theme</code></li>
-          <li class="fragment"><code>todoModel(todoId, field)</code> is the special translator for one field on one todo card</li>
-          <li class="fragment">Both helpers are just <code>model({ signal, get, set })</code>, which means the same directive powers the whole app</li>
-          <li class="fragment">This is the practical use of the template engine chapter: tiny reusable bindings instead of manual event code everywhere</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+  <h4 balance><mark>Helpers.js</mark>: two tiny translators for all our inputs</h4>
+  <small balance> We do not want every <mark>text field</mark> and <mark>checkbox</mark> to remember how to read and write the <mark>store</mark>. So the app builds <mark>two small helpers</mark>, and then reuses them everywhere. </small>
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>ModelHelpers</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export function storeModel(path, options = {}) {
+  // storeModel(path) is the generic translator
+  // for fields like filters.search.
   return model({
     signal: tickState,
     get: () => store.get(path),
@@ -27,6 +18,10 @@ export function storeModel(path, options = {}) {
 }
 
 export function todoModel(todoId, field, options = {}) {
+  // todoModel(todoId, field) is the special
+  // translator for one field on one todo card.
+  // Both helpers are just model({ ... }), so
+  // the same directive powers the whole app.
   return model({
     signal: tickState,
     get: () => getTodoById(todoId)?.[field],
@@ -35,7 +30,5 @@ export function todoModel(todoId, field, options = {}) {
   })
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

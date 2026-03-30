@@ -1,23 +1,18 @@
 <section data-topic="template-engine" data-menu-title="TemplateInstance">
-  <h4 balance><code>_template-instance.js</code>: compile once, clone fast, bind precise parts</h4>
+  <h4 balance><mark>_template-instance.js</mark>: compile once, clone fast, bind precise parts</h4>
   <small balance>
-    This is the parser and the materializer. It turns template literals into cached descriptors, then turns those descriptors into concrete part objects inside a cloned fragment. If the engine feels magical anywhere, it is here.
+    This is the <mark>parser</mark> and the <mark>materializer</mark>. It turns template literals into <mark>cached descriptors</mark>, then turns those descriptors into <mark>concrete part objects</mark> inside a cloned fragment. If the engine feels magical anywhere, it is here.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>getTemplate()</code> builds synthetic markup with placeholders, parses it once, walks the fragment, and stores descriptor metadata in a <code>WeakMap</code> keyed by the original <code>TemplateStringsArray</code></li>
-          <li class="fragment">Descriptors record type, index, name, raw attribute name, and node path, so later instances can find the exact DOM spot without reparsing strings</li>
-          <li class="fragment">The constructor clones the cached template fragment, resolves descriptor paths, and swaps placeholders for <code>ChildNodePart</code>, <code>AttributePart</code>, <code>PropertyPart</code>, or <code>EventPart</code></li>
-          <li class="fragment"><code>update(values)</code> is then almost boring: walk the values array and push each value into its matching part</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="template-engine">
+  <h4 balance><mark>TemplateInstance</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 function getTemplate(strings) {
+  // getTemplate() builds synthetic markup,
+  // parses it once, and caches descriptor
+  // metadata by TemplateStringsArray.
   let record = templateCache.get(strings)
   if (record) return record
 
@@ -32,19 +27,22 @@ function getTemplate(strings) {
 
   const template = document.createElement("template")
   template.innerHTML = markup + strings[strings.length - 1]
+  // descriptors record type, index, name, raw
+  // attribute name, and node path for later
+  // instances.
   record = { template, descriptors }
   templateCache.set(strings, record)
   return record
 }
 
 update(values) {
+  // update(values) walks the current values and
+  // pushes each one into its matching part.
   for (let index = 0; index < values.length; index += 1) {
     const part = this.parts.get(index)
     if (part) part.setValue(values[index])
   }
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

@@ -1,29 +1,22 @@
 <section data-topic="template-engine" data-menu-title="parts barrel">
-  <h4 balance><code>_parts.js</code>: one import seam for all DOM part implementations</h4>
+  <h4 balance><mark>_parts.js</mark>: one import seam for all DOM part implementations</h4>
   <small balance>
-    This file is short, but it improves the architecture in a very practical way. The template instance builder can depend on one barrel instead of juggling a handful of sibling imports every time it maps descriptors to concrete parts.
+    This file is short, but it improves the <mark>architecture</mark> in a very practical way. The template instance builder can depend on <mark>one barrel</mark> instead of juggling a handful of sibling imports every time it maps descriptors to <mark>concrete parts</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment">It reexports <code>AttributePart</code>, <code>ChildNodePart</code>, <code>EventPart</code>, <code>Part</code>, and <code>PropertyPart</code> from one place</li>
-          <li class="fragment">That gives <code>_template-instance.js</code> a single dependency edge for all concrete part types</li>
-          <li class="fragment">Barrels like this are not about saving keystrokes; they are about making module boundaries legible</li>
-          <li class="fragment">In a talk, this matters because people can understand the graph at a glance instead of parsing import noise</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="template-engine">
+  <h4 balance><mark>Parts</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// Reexport all concrete part types from one
+// place, so template-instance gets one clean
+// dependency seam.
 export { AttributePart } from "./_attribute-part.js"
 export { ChildNodePart } from "./_child-node-part.js"
 export { EventPart } from "./_event-part.js"
 export { Part } from "./_part.js"
 export { PropertyPart } from "./_property-part.js"
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

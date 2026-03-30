@@ -1,22 +1,16 @@
 <section data-topic="template-engine" data-menu-title="Public API">
-  <h4 balance><code>index.js</code>: the single friendly import path the rest of the app sees</h4>
+  <h4 balance><mark>index.js</mark>: the single friendly import path the rest of the app sees</h4>
   <small balance>
-    After all that plumbing, the public entry is intentionally boring. That is the mark of a good boundary. Internals can be rich, but the caller should get one calm door and a small set of names.
+    After all that plumbing, the public entry is intentionally <mark>boring</mark>. That is the mark of a <mark>good boundary</mark>. Internals can be rich, but the caller should get one <mark>calm door</mark> and a <mark>small set of names</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment">This module reexports <code>directive</code>, <code>html</code>, <code>isDirective</code>, <code>model</code>, <code>render</code>, and <code>repeat</code> from one place</li>
-          <li class="fragment">That means views and components never need to know whether the engine is split across 2 files or 20</li>
-          <li class="fragment">In architecture terms, this is the explicit public contract of the whole template layer</li>
-          <li class="fragment">In conference terms, this is the slide where you can finally say: "all that machinery collapses into one import"</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="template-engine">
+  <h4 balance><mark>PublicApi</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// Re-export the whole template layer from one
+// place, so callers get one calm public door.
 export {
   directive,
   html,
@@ -26,7 +20,5 @@ export {
   repeat,
 } from "./_template.js"
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

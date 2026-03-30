@@ -1,36 +1,34 @@
 <section data-topic="demo" data-menu-title="Modals + draft">
-  <h4 balance><code>TodoModal</code> and <code>CategoryModal</code>: popups are just more state</h4>
+  <h4 balance><mark>TodoModal</mark> and <mark>CategoryModal</mark>: popups are just more state</h4>
   <small balance>
-    A common beginner mistake is to think dialogs need special magic. Here they do not. They simply open when the store says open, and their fields write into shared state just like the rest of the app.
+    A common beginner mistake is to think <mark>dialogs</mark> need <mark>special magic</mark>. Here they do not. They simply open when the store says open, and their fields write into <mark>shared state</mark> just like the rest of the app.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>todoModal()</code> reads <code>ui.todoModal.open</code> and returns nothing when the dialog should stay closed</li>
-          <li class="fragment">The whole form writes into <code>draft.*</code>, so add and edit flows can share one basket of temporary values</li>
-          <li class="fragment"><code>categoryModal()</code> writes to <code>ui.categoryModal.value</code> and shows validation errors from state</li>
-          <li class="fragment">Submit handlers call <code>addTodo()</code> or <code>addCategory()</code>, which means modals stay thin and business logic stays in actions</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>ModalsAndDraft</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// TodoModal() reads ui.todoModal.open and
+// returns nothing while the dialog stays closed.
 if (!modal.open) return ""
-
-<input model=${storeModel("draft.title")} />
-<textarea model=${storeModel("draft.notes")} rows="4"></textarea>
-<select model=${storeModel("draft.priority", { event: "change" })}>
-  ${priorityOptions()}
-</select>
-
-<input model=${storeModel("ui.categoryModal.value")} />
-
-<form @submit=${handleTodoSubmit}></form>
-<form @submit=${handleCategorySubmit}></form>
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+    <pre><code data-trim data-line-numbers class="hljs html">
+&lt;!-- The whole form writes into draft.*, so add
+and edit flows can share one basket. --&gt;
+&lt;input model=${storeModel("draft.title")} /&gt;
+&lt;textarea model=${storeModel("draft.notes")} rows="4"&gt;&lt;/textarea&gt;
+&lt;select model=${storeModel("draft.priority", { event: "change" })}&gt;
+  ${priorityOptions()}
+&lt;/select&gt;
+
+&lt;!-- CategoryModal() writes to ui.categoryModal.value
+and shows validation errors from state. --&gt;
+&lt;input model=${storeModel("ui.categoryModal.value")} /&gt;
+
+&lt;!-- Submit handlers call addTodo() or
+addCategory(), so modals stay thin. --&gt;
+&lt;form @submit=${handleTodoSubmit}&gt;&lt;/form&gt;
+&lt;form @submit=${handleCategorySubmit}&gt;&lt;/form&gt;
+        </code></pre>
+  </article>
 </section>

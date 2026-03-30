@@ -1,36 +1,29 @@
 <section data-topic="demo" data-menu-title="Render loop">
-  <h4 balance><code>src/scripts/index.js</code>: when the bell rings, paint again</h4>
-  <small balance>
-    This is the slide where the chapters shake hands. Signals watch, the template engine renders, and the DOM changes for real.
-  </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment">The first <code>effect()</code> mirrors theme, color scheme, and language onto the document for CSS and accessibility</li>
-          <li class="fragment">The second <code>effect()</code> watches <code>tickState</code> and calls <code>render(appView(), root)</code></li>
-          <li class="fragment"><code>requestAnimationFrame()</code> measures the app shell after the DOM has been updated</li>
-          <li class="fragment">So the runtime story is: store change, bell rings, effect runs, template engine paints</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+  <h4 balance><mark>RenderLoop.js</mark>: when the bell rings, paint again</h4>
+  <small balance> This is the slide where the <mark>chapters shake hands</mark>. <mark>Signals</mark> watch, the <mark>template engine</mark> renders, and the <mark>DOM</mark> changes for real. </small>
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>RenderLoop</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 effect(() => {
+  // The first effect() mirrors theme, color
+  // scheme, and language onto the document.
   tickState.get()
   syncDocumentPreferences()
 })
 
 effect(() => {
+  // The second effect() watches tickState and
+  // paints the app through the template engine.
   tickState.get()
-  render(appView(), root)
+  render(App(), root)
   scheduleAppShellSizeSync()
 })
 
+// Store change, bell rings, effect runs,
+// template engine paints.
 tickState.set(performance.now())
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

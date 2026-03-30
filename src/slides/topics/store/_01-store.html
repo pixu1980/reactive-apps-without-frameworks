@@ -1,0 +1,89 @@
+<section data-topic="store" data-menu-title="Proxy + Reflect">
+  <h4 balance><mark>_store.js</mark>: where <mark>Proxy</mark> watches and <mark>Reflect</mark> does the work</h4>
+  <small balance>
+    This is where everything comes together. The class wraps the raw state tree in a <mark>Proxy</mark>, uses <mark>Reflect</mark> to preserve normal object behavior, and turns ordinary reads and
+    writes into something the rest of the app can observe.
+  </small>
+</section>
+
+<section data-topic="store">
+  <h4 balance><mark>Store</mark></h4>
+  <article class="code-stack">
+    <pre>
+      <code data-trim data-line-numbers class="hljs javascript">
+constructor(initialState) {
+  // Deep-clone the initial state, cache proxy identity,
+  // and expose the proxied tree.
+  this.raw = deepClone(initialState);
+  this.proxyCache = new WeakMap();
+  this.state = this.createProxy(this.raw, []);
+}
+
+createProxy(target, path) {
+  if (!isObject(target)) {
+    return target;
+  }
+  
+  if (this.proxyCache.has(target)) {
+    return this.proxyCache.get(target);
+  }
+  
+  // Proxy adds behavior, while Reflect keeps object
+  // semantics predictable.
+  // Proxy is the watcher: intercept reads and writes
+  // so the store can react.
+  const proxy = new Proxy(target, {
+    get: (raw, key, receiver) => {
+      if (key === "__raw") return raw;
+      if (key === "__path") return path;
+      
+      // Reflect performs the real native read after
+      // the trap inspects the access.
+      const value = Reflect.get(raw, key, receiver);
+      
+      if (isObject(value)) {
+        return this.createProxy(value, [...path, key]);
+      }
+      
+      return value;
+    },
+    set: (raw, key, value, receiver) => {
+      const nextPath = [...path, key];
+      const oldValue = raw[key];
+      const prepared = clonePlainValue(value);
+      
+      // Reflect performs the real native write after
+      // the store prepares the value.
+      const result = Reflect.set(
+        raw, 
+        key, 
+        prepared, 
+        receiver
+      );
+      
+      if (oldValue !== prepared) {
+        this.emitChange(nextPath, oldValue, prepared);
+      }
+      
+      return result;
+    },
+    deleteProperty: (raw, key) => {
+      const oldValue = raw[key];
+      const result = Reflect.deleteProperty(raw, key);
+      
+      if (result) {
+        this.emitChange(
+          [...path, key], 
+          oldValue, 
+          undefined
+        );
+      }
+      
+      return result;
+    },
+  })
+}
+        </code>
+      </pre>
+  </article>
+</section>

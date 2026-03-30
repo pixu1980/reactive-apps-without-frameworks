@@ -1,23 +1,18 @@
 <section data-topic="template-engine" data-menu-title="ChildNodePart">
-  <h4 balance><code>_child-node-part.js</code>: the part that can render almost anything</h4>
+  <h4 balance><mark>_child-node-part.js</mark>: the part that can render almost anything</h4>
   <small balance>
-    If <code>AttributePart</code> speaks to element fields, <code>ChildNodePart</code> speaks to the area between two markers. Text, nodes, nested templates, iterables, keyed repeat, signal driven lists: this is the heavyweight operator of the engine.
+    If <mark>AttributePart</mark> speaks to element fields, <mark>ChildNodePart</mark> speaks to the <mark>area between two markers</mark>. <mark>Text</mark>, <mark>nodes</mark>, <mark>nested templates</mark>, <mark>keyed repeat</mark>, and <mark>signal driven lists</mark>: this is the heavyweight operator of the engine.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>setValue()</code> resolves signals first, so child content can stay reactive without every caller writing manual subscriptions</li>
-          <li class="fragment"><code>commit()</code> branches across repeat directives, template results, iterables, and single values, which is why one placeholder can accept many shapes</li>
-          <li class="fragment"><code>commitTemplate()</code> reuses the existing template instance when the template literal identity is the same, updating values in place instead of rebuilding DOM</li>
-          <li class="fragment"><code>commitRepeat()</code> keeps a keyed map of blocks, walks backwards to get a stable anchor, moves ranges instead of nodes one by one, and can subscribe to signal driven item sources</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="template-engine">
+  <h4 balance><mark>ChildNodePart</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 function createBlock(itemKey, referenceNode) {
+  // createBlock() creates one keyed range and
+  // one ChildNodePart that can be moved without
+  // rebuilding DOM.
   const start = document.createComment(`repeat-start:${itemKey}`)
   const end = document.createComment(`repeat-end:${itemKey}`)
   referenceNode.parentNode.insertBefore(start, referenceNode)
@@ -26,23 +21,31 @@ function createBlock(itemKey, referenceNode) {
 }
 
 commitRepeat({ items, key, renderItem }) {
+  // commitRepeat() accepts signal driven or
+  // plain item sources and normalizes them into
+  // one list.
   const source = isSignalLike(items) ? items.get() : items
-  const list = Array.isArray(source) ? source : isIterable(source) ? [...source] : []
+  const list = Array.isArray(source)
+    ? source
+    : isIterable(source)
+      ? [...source]
+      : []
   const state = this.repeatState ?? { blocks: new Map() }
   const nextBlocks = new Map()
   let referenceNode = this.end
 
+  // Walk backwards for a stable anchor, reuse
+  // keyed blocks, and update only changed items.
   for (let index = list.length - 1; index >= 0; index -= 1) {
     const item = list[index]
     const itemKey = key(item)
-    let block = state.blocks.get(itemKey) ?? createBlock(itemKey, referenceNode)
+    let block = state.blocks.get(itemKey)
+      ?? createBlock(itemKey, referenceNode)
     if (block.item !== item) block.part.setValue(renderItem(item))
     nextBlocks.set(itemKey, block)
     referenceNode = block.start
   }
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

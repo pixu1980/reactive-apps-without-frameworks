@@ -1,29 +1,27 @@
 <section data-topic="template-engine" data-menu-title="instance ref">
-  <h4 balance><code>_template-instance-ref.js</code>: a tiny registry that breaks a circular import cleanly</h4>
+  <h4 balance><mark>_template-instance-ref.js</mark>: a tiny registry that breaks a circular import cleanly</h4>
   <small balance>
-    This is one of those files that makes seasoned engineers smile. Instead of pretending circular imports do not exist, the runtime isolates the cycle behind a tiny register and read API with one loud failure mode.
+    This is one of those files that makes seasoned engineers smile. Instead of pretending <mark>circular imports</mark> do not exist, the runtime isolates the cycle behind a <mark>tiny register and read API</mark> with one <mark>loud failure mode</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>TemplateInstance</code> lives in module scope as a mutable slot, not as a direct import</li>
-          <li class="fragment"><code>setTemplateInstanceClass()</code> registers the concrete class exactly once during template engine setup</li>
-          <li class="fragment"><code>getTemplateInstanceClass()</code> lets <code>ChildNodePart</code> instantiate nested templates without importing the class directly</li>
-          <li class="fragment">If setup did not happen, the helper throws immediately, which is much better than silently rendering broken DOM</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="template-engine">
+  <h4 balance><mark>TemplateInstanceRef</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// TemplateInstance lives in module scope as a
+// mutable slot, not as a direct import.
 let TemplateInstance
 
 export function setTemplateInstanceClass(cls) {
+  // Register the concrete class once during
+  // template engine setup.
   TemplateInstance = cls
 }
 
 export function getTemplateInstanceClass() {
+  // ChildNodePart can ask for the class later
+  // without creating a circular import.
   if (!TemplateInstance) {
     throw new Error("TemplateInstance class not registered.")
   }
@@ -31,7 +29,5 @@ export function getTemplateInstanceClass() {
   return TemplateInstance
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

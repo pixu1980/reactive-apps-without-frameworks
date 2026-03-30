@@ -1,35 +1,35 @@
 <section data-topic="demo" data-menu-title="Header">
-  <h4 balance><code>components/AppHeader/_AppHeader.js</code>: big buttons on top, tiny writes underneath</h4>
+  <h4 balance><mark>Header.js</mark>: big buttons on top, tiny writes underneath</h4>
   <small balance>
-    The header looks rich, but its behavior is simple. Buttons call actions, selects use <code>storeModel()</code>, and the rest of the app updates because the same shared store keeps listening.
+    The header looks rich, but its behavior is simple. <mark>Buttons</mark> call actions, selects use <mark>storeModel()</mark>, and the rest of the app updates because the same <mark>shared store</mark> keeps listening.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>@click=${resetDemo}</code>, <code>@click=${openTodoModal}</code>, and <code>@click=${openCategoryModal}</code> are plain event parts</li>
-          <li class="fragment">Theme, language, and color scheme selects write straight into <code>preferences.*</code> paths</li>
-          <li class="fragment">The document dataset effect then mirrors those preferences so CSS and translations can react</li>
-          <li class="fragment">This proves the runtime is driving the whole shell, not just the list in the middle</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
-<button data-variant="warning" @click=${resetDemo}>
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>Header</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs html">
+&lt;!-- Buttons use plain event parts, while
+preferences.* writes happen through
+storeModel(). --&gt;
+&lt;button data-variant="warning" @click=${resetDemo}&gt;
   ${t(language, "buttons.resetDemo")}
-</button>
+&lt;/button&gt;
 
-<select model=${storeModel("preferences.theme", { event: "change" })}>
+&lt;!-- Theme, language, and color scheme write
+straight into shared preferences. --&gt;
+&lt;select
+  model="${storeModel('preferences.theme', { event: 'change' })}"
+&gt;
   ${themeOptions()}
-</select>
+&lt;/select&gt;
 
-<select model=${storeModel("preferences.language", { event: "change" })}>
+&lt;!-- The document dataset effect mirrors those
+preferences so CSS and translations can react. --&gt;
+&lt;select
+  model="${storeModel('preferences.language', { event: 'change' })}"
+&gt;
   ${languageOptions()}
-</select>
+&lt;/select&gt;
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

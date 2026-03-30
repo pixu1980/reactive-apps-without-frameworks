@@ -1,29 +1,28 @@
 <section data-topic="template-engine" data-menu-title="Part">
-  <h4 balance><code>_part.js</code>: one tiny base class for reactive DOM slots</h4>
+  <h4 balance><mark>_part.js</mark>: one tiny base class for reactive DOM slots</h4>
   <small balance>
-    A lot of the engine becomes easier to understand once you see this file: a DOM part is just a place that can hold a value, optionally subscribe to a signal, and clean itself up when the source changes.
+    A lot of the engine becomes easier to understand once you see this file: a DOM part is just a place that can <mark>hold a value</mark>, optionally <mark>subscribe to a signal</mark>, and <mark>clean itself up</mark> when the source changes.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>value</code> stores the last committed input, which gives concrete parts a shared place to remember what they rendered</li>
-          <li class="fragment"><code>signalCleanup</code> stores the unsubscribe function for the currently bound signal, so replacing a binding does not leak subscriptions</li>
-          <li class="fragment"><code>bindSignal()</code> subscribes once, then immediately pushes <code>signal.get()</code> through the same callback path used for later updates</li>
-          <li class="fragment"><code>disposeSignal()</code> is boring on purpose: one cleanup path, reused by attribute, property, and child parts</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="template-engine">
+  <h4 balance><mark>Part</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export class Part {
   constructor() {
+    // value remembers the last committed input
+    // for concrete parts.
     this.value = undefined
+    // signalCleanup stores the unsubscribe
+    // function for the currently bound signal.
     this.signalCleanup = null
   }
 
   bindSignal(signal, callback) {
+    // bindSignal() subscribes once, then
+    // immediately pushes signal.get() through the
+    // same update path.
     this.disposeSignal()
     this.signalCleanup = signal.subscribe(() => {
       callback(signal.get())
@@ -32,12 +31,13 @@ export class Part {
   }
 
   disposeSignal() {
+    // disposeSignal() is one boring cleanup
+    // path reused by attribute, property, and
+    // child parts.
     if (this.signalCleanup) this.signalCleanup()
     this.signalCleanup = null
   }
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

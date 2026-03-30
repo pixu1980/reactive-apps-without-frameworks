@@ -1,22 +1,16 @@
 <section data-topic="template-engine" data-menu-title="template-helpers">
-  <h4 balance><code>_template-helpers.js</code>: the tiny IR every template expression becomes</h4>
+  <h4 balance><mark>_template-helpers.js</mark>: the tiny IR every template expression becomes</h4>
   <small balance>
-    Before the engine can render anything, it needs one honest shape for "a template", and one honest shape for "a directive". This file gives us exactly that, with almost no magic.
+    Before the engine can render anything, it needs one <mark>honest shape</mark> for "a template", and one <mark>honest shape</mark> for "a directive". This file gives us exactly that, with almost no <mark>magic</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>html(strings, ...values)</code> does not touch the DOM; it returns a plain object with <code>kind</code>, <code>strings</code>, and <code>values</code></li>
-          <li class="fragment"><code>directive(name, payload)</code> brands directive results with a private <code>Symbol</code>, so parts can recognize them without stringly typed hacks</li>
-          <li class="fragment"><code>isDirective()</code> checks that brand and can optionally narrow by name, which is how parts distinguish <code>model</code> from <code>repeat</code></li>
-          <li class="fragment"><code>model()</code> and <code>repeat()</code> are just friendly wrappers over <code>directive()</code>, so the authoring API stays declarative</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="template-engine">
+  <h4 balance><mark>TemplateHelpers</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// html(strings, ...values) does not touch the
+// DOM; it returns a plain object description.
 export function html(strings, ...values) {
   return {
     kind: "template-result",
@@ -25,6 +19,9 @@ export function html(strings, ...values) {
   }
 }
 
+// directive(name, payload) brands directive
+// results so parts can recognize them without
+// typed hacks.
 export function directive(name, payload) {
   return {
     [directiveBrand]: true,
@@ -33,15 +30,18 @@ export function directive(name, payload) {
   }
 }
 
+// model() is a friendly wrapper over
+// directive(), so the authoring API stays
+// declarative.
 export function model(config) {
   return directive("model", config)
 }
 
+// repeat() is the same idea for keyed list rendering.
 export function repeat(items, key, renderItem) {
   return directive("repeat", { items, key, renderItem })
 }
-        </code></pre>
-      </article>
-    </right>
-  </comparison>
+      </code>
+    </pre>
+  </article>
 </section>

@@ -1,31 +1,30 @@
 <section data-topic="signals" data-menu-title="Public API">
-  <h4 balance><code>index.js</code>: the small public surface the rest of the app actually imports</h4>
+  <h4 balance><mark>index.js</mark>: the small public surface the rest of the app actually imports</h4>
   <small balance>
-    Internal files are easier to teach when they stay tiny and focused. The outside world, though, wants one friendly door. This module assembles that door: constructors, one escape hatch for untracked reads, one type guard, and one helper to create effects.
+    Internal files are easier to teach when they stay tiny and focused. The outside world, though, wants one <mark>friendly door</mark>. This module assembles that door: constructors, one <mark>escape hatch</mark> for
+    untracked reads, one <mark>type guard</mark>, and one helper to <mark>create effects</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>Signal.State</code> and <code>Signal.Computed</code> expose the two main reactive primitives without leaking file-level implementation details</li>
-          <li class="fragment"><code>Signal.subtle.untrack</code> intentionally sounds advanced, because turning tracking off is powerful and should feel explicit</li>
-          <li class="fragment"><code>isSignalLike()</code> gives the renderer a duck-typing check instead of forcing a brittle <code>instanceof</code> contract</li>
-          <li class="fragment"><code>effect()</code> creates an <code>EffectCollector</code> and returns the disposer, which makes lifecycle cleanup natural for callers</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="signals">
+  <h4 balance><mark>PublicApi</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export const Signal = {
+  // Expose the two main reactive primitives
+  // behind one calm public object.
   State: StateSignal,
   Computed: ComputedSignal,
   subtle: {
+    // untrack stays explicit because disabling
+    // dependency collection is an advanced move.
     untrack: withoutCollector,
   },
 }
 
 export function isSignalLike(value) {
+  // Duck-typing keeps the renderer decoupled
+  // from brittle instanceof checks.
   return Boolean(
     value &&
     typeof value.get === "function" &&
@@ -34,11 +33,11 @@ export function isSignalLike(value) {
 }
 
 export function effect(callback) {
+  // effect() creates an EffectCollector and
+  // returns the disposer for cleanup.
   const runner = new EffectCollector(callback)
   return () => runner.stop()
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

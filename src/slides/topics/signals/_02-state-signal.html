@@ -1,39 +1,41 @@
 <section data-topic="signals" data-menu-title="StateSignal">
-  <h4 balance><code>_state-signal.js</code>: the box that actually holds a value</h4>
+  <h4 balance><mark>_state-signal.js</mark>: the box that actually holds a value</h4>
   <small balance>
-    If <code>BaseSignal</code> is the wiring, <code>StateSignal</code> is the first real piece of state. It stores one concrete value, exposes tracked and untracked reads, and only notifies dependents when the value really changes.
+    If <mark>BaseSignal</mark> is the wiring, <mark>StateSignal</mark> is the first real piece of state. It stores one concrete value, exposes tracked and untracked reads, and only notifies dependents
+    when the value really changes.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment">It extends <code>BaseSignal</code>, so it inherits subscription, tracking, and notification behavior instead of reimplementing them</li>
-          <li class="fragment"><code>get()</code> calls <code>track()</code> before returning the value, which is how reads become graph edges</li>
-          <li class="fragment"><code>peek()</code> returns the same value without dependency collection, useful when you want to inspect state quietly</li>
-          <li class="fragment"><code>set()</code> uses <code>equals</code> as a guard rail, so identical writes do not fan out pointless invalidations</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="signals">
+  <h4 balance><mark>StateSignal</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export class StateSignal extends BaseSignal {
+  // Extend BaseSignal so this signal inherits
+  // the shared subscription and tracking wiring.
   constructor(value, options = {}) {
     super()
     this.value = value
+    // equals is the guard rail that blocks
+    // pointless invalidations on identical writes.
     this.equals = options.equals ?? Object.is
   }
 
   get() {
+    // Track before returning so reads become
+    // dependency graph edges.
     this.track()
     return this.value
   }
 
   peek() {
+    // peek() reads the same value without collecting a dependency.
     return this.value
   }
 
   set(nextValue) {
+    // Only meaningful writes fan out
+    // notifications to dependents.
     if (this.equals(this.value, nextValue)) return this.value
     this.value = nextValue
     this.notify()
@@ -41,7 +43,5 @@ export class StateSignal extends BaseSignal {
   }
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

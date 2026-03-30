@@ -1,23 +1,18 @@
 <section data-topic="demo" data-menu-title="Filter pipe">
-  <h4 balance><code>data/_pipeline.js</code>: one filter pipe, one job at a time</h4>
+  <h4 balance><mark>Pipeline.js</mark>: one filter pipe, one job at a time</h4>
   <small balance>
-    Instead of making lots of temporary arrays, the app lets todos walk through a pipe. Each filter looks at one todo, decides yes or no, and passes only the matching ones to the next step.
+    Instead of making lots of <mark>temporary arrays</mark>, the app lets todos walk through a <mark>pipe</mark>. Each filter looks at one todo, decides yes or no, and passes only the <mark>matching ones</mark> to the next step.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>fromArray()</code> turns the todo list into a lazy stream</li>
-          <li class="fragment"><code>filterBySearch()</code>, <code>filterByCategory()</code>, <code>filterByStatus()</code>, and <code>filterByPriority()</code> each do one simple job</li>
-          <li class="fragment">Only the final sort step materializes the list, so the pipeline stays cheap and easy to inspect</li>
-          <li class="fragment"><code>visibleTodos</code> simply asks the pipeline for the ready-made answer</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>PipelineTodos</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export function pipelineTodos(todos, filters, language) {
+  // fromArray() turns the todo list into a
+  // lazy stream for the rest of the pipeline.
+  // Each filter does one simple job, and only
+  // the final sort materializes the list.
   const iterator = filterByPriority(
     filterByStatus(
       filterByCategory(
@@ -29,10 +24,15 @@ export function pipelineTodos(todos, filters, language) {
     filters.priority,
   )
 
-  return sortTodos(iterator, filters.sortBy, filters.sortDir, language)
+  // visibleTodos simply asks this pipeline for
+  // the ready-made answer.
+  return sortTodos(
+    iterator,
+    filters.sortBy,
+    filters.sortDir,
+    language,
+  )
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

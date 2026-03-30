@@ -1,36 +1,52 @@
 <section data-topic="demo" data-menu-title="State shape">
-  <h4 balance><code>data/_data.js</code>: the toy box where every piece starts</h4>
+  <h4 balance><mark>Data.js</mark>: the toy box where every piece starts</h4>
   <small balance>
-    Before the store can react, it needs one complete starting picture. This file builds that picture in one place, so reset, persistence, and rendering all agree on the same state shape.
+    Before the <mark>store</mark> can react, it needs one complete <mark>starting picture</mark>. This file builds that picture in one place, so <mark>reset</mark>, <mark>persistence</mark>, and <mark>rendering</mark> all agree on the same <mark>state shape</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>todos</code>, <code>categories</code>, and <code>draft</code> hold the work the user can create and edit</li>
-          <li class="fragment"><code>filters</code> and <code>preferences</code> are also state, because the app must remember how to look and what to show</li>
-          <li class="fragment"><code>debug</code> and <code>ui</code> prove that temporary interface details still belong in the same tree</li>
-          <li class="fragment"><code>createSeedData()</code> is reused by first load and by <code>resetDemo()</code>, so the app can always grow back from one seed</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>CreateSeedData</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export function createSeedData() {
+  // todos, categories, and draft hold the
+  // work the user can create and edit.
+  // filters and preferences are also state,
+  // because the app must remember how to look.
+  // debug and ui prove temporary interface
+  // details still belong in the same tree.
   return {
     todos: [/* starter todos */],
-    categories: ["Inbox", "Talk", "Engine", "Assets", "Research"],
+    categories: [
+      "Inbox",
+      "Talk",
+      "Engine",
+      "Assets",
+      "Research",
+    ],
     draft: {
       title: "",
       notes: "",
       category: "Inbox",
       priority: "medium",
-      dueDate: new Date(now + ONE_DAY_MS).toISOString().slice(0, 10),
+      dueDate: new Date(now + ONE_DAY_MS)
+        .toISOString()
+        .slice(0, 10),
     },
-    filters: { search: "", category: "all", status: "all", priority: "all", sortBy: "createdAt", sortDir: "desc" },
+    filters: {
+      search: "",
+      category: "all",
+      status: "all",
+      priority: "all",
+      sortBy: "createdAt",
+      sortDir: "desc",
+    },
     debug: { paused: false, logs: [] },
-    preferences: { colorScheme: "system", theme: "studio", language: "en" },
+    preferences: {
+      colorScheme: "system",
+      theme: "studio",
+      language: "en",
+    },
     ui: {
       categoryModal: { open: false, value: "", error: "" },
       todoModal: { open: false, error: "" },
@@ -38,7 +54,5 @@ export function createSeedData() {
   }
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

@@ -1,39 +1,32 @@
 <section data-topic="demo" data-menu-title="repeat() list">
-  <h4 balance><code>components/TodoList/_TodoList.js</code>: one render function becomes a whole living list</h4>
-  <small balance>
-    A single todo card is nice, but the real trick is many cards that stay stable when filters, sorting, or language change. That is where <code>repeat()</code> earns its lunch.
-  </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>visibleLabel</code> drops straight into the template as a computed signal, so the summary text updates itself</li>
-          <li class="fragment"><code>repeat(visibleTodos, key, todoItem)</code> turns one render function into a full ordered list</li>
-          <li class="fragment">The key uses <code>todo.id</code> and <code>language</code>, so locale changes can rebuild the right text without losing list identity accidentally</li>
-          <li class="fragment">This is the everyday use of the repeat directive and the range-moving logic from the template engine chapter</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
-export function todoListPanel() {
+  <h4 balance><mark>TodoList.js</mark>: one render function becomes a whole living list</h4>
+  <small balance> A single todo card is nice, but the real trick is <mark>many cards that stay stable</mark> when <mark>filters</mark>, <mark>sorting</mark>, or <mark>language</mark> change. That is where <mark>repeat()</mark> earns its lunch. </small>
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>TodoList</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+export function TodoList() {
+  // visibleLabel drops into the template as a
+  // computed signal, so the summary updates itself.
   const language = store.state.preferences.language
 
   return html`
-    <section data-component="todo-list-panel">
-      <header data-slot="header">
-        <h2>${t(language, "sections.reactiveList")}</h2>
-        <p data-slot="summary">${visibleLabel}</p>
-      </header>
-      <ol data-list-reset data-slot="items">
-        ${repeat(visibleTodos, (todo) => `${todo.id}:${language}`, todoItem)}
-      </ol>
-    </section>
+    &lt;section data-component="todo-list"&gt;
+      &lt;header data-slot="header"&gt;
+        &lt;h2>${t(language, "sections.reactiveList")}&lt;/h2&gt;
+        &lt;p data-slot="summary"&gt;${visibleLabel}&lt;/p&gt;
+      &lt;/header&gt;
+      &lt;ol data-list-reset data-slot="items"&gt;
+        ${repeat(
+          visibleTodos,
+          (todo) => `${todo.id}:${language}`,
+          TodoItem,
+        )}
+      &lt;/ol&gt;
+    &lt;/section&gt;
   `
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

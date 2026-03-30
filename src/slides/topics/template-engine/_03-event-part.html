@@ -1,41 +1,38 @@
 <section data-topic="template-engine" data-menu-title="EventPart">
-  <h4 balance><code>_event-part.js</code>: the whole event system in one very small file</h4>
+  <h4 balance><mark>_event-part.js</mark>: the whole event system in one very small file</h4>
   <small balance>
-    This slide is a nice reminder that not every runtime primitive needs to be clever. Event bindings are not tracked values. They are simply listener replacement with disciplined cleanup.
+    This slide is a nice reminder that not every runtime primitive needs to be <mark>clever</mark>. Event bindings are not tracked values. They are simply <mark>listener replacement</mark> with <mark>disciplined cleanup</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>EventPart</code> does not extend <code>Part</code>, because event listeners are not signal subscriptions and do not share that lifecycle</li>
-          <li class="fragment"><code>setValue()</code> always removes the old listener first, so rerenders can safely replace closures without stacking handlers</li>
-          <li class="fragment">Non function values are ignored, which keeps bad bindings harmless instead of half working</li>
-          <li class="fragment">The class stores exactly one active listener reference, because removal in the DOM API must use the same function identity</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="template-engine">
+  <h4 balance><mark>EventPart</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// EventPart does not extend Part, because
+// event listeners are not signal subscriptions.
 export class EventPart {
   constructor(element, name) {
     this.element = element
     this.name = name
+    // The class stores exactly one active listener reference.
     this.listener = null
   }
 
   setValue(value) {
+    // setValue() always removes the old listener
+    // first, so rerenders can safely replace
+    // closures.
     if (this.listener) {
       this.element.removeEventListener(this.name, this.listener)
       this.listener = null
     }
+    // Non function values are ignored, which keeps bad bindings harmless.
     if (typeof value !== "function") return
     this.listener = value
     this.element.addEventListener(this.name, this.listener)
   }
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

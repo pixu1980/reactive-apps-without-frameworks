@@ -1,0 +1,24 @@
+<section data-topic="store" data-menu-title="Public API">
+  <h4 balance><mark>index.js</mark>: one calm public doorway into the store layer</h4>
+  <small balance>
+    After all that machinery, the public module is intentionally almost <mark>boring</mark>. That is a feature. Most consumers should not care how <mark>cloning</mark>, <mark>path normalization</mark>, <mark>proxy traps</mark>, or <mark>event dispatch</mark> work.
+    They should just import <mark>Store</mark> and move on.
+  </small>
+</section>
+
+<section data-topic="store">
+  <h4 balance><mark>PublicApi</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// This barrel keeps imports stable even if
+// internals are reorganized later.
+// It is the boundary between private plumbing
+// and public contract: inside live Proxy,
+// Reflect, cloning, and CustomEvent; outside
+// there is just Store.
+// All the complexity stays behind the curtain,
+// and the consumer gets one friendly button to press.
+export { Store } from "./_store.js"
+        </code></pre>
+  </article>
+</section>

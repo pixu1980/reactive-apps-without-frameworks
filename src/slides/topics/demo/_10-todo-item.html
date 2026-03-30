@@ -1,40 +1,36 @@
 <section data-topic="demo" data-menu-title="Todo card">
-  <h4 balance><code>components/TodoItem/_TodoItem.js</code>: one card where <code>model()</code> shows its magic</h4>
+  <h4 balance><mark>TodoItem.js</mark>: one card where <mark>model()</mark> shows its magic</h4>
   <small balance>
-    This is the best "look, it is really used" slide. One todo card has checkboxes, text inputs, selects, a textarea, and a delete button, but they all stay tiny because the helpers do the boring work.
+    This is the best "look, it is really used" slide. One <mark>todo card</mark> has <mark>checkboxes</mark>, <mark>text inputs</mark>, <mark>selects</mark>, a <mark>textarea</mark>, and a <mark>delete button</mark>, but they all stay tiny because the helpers do the boring
+    work.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment">Checkboxes use <code>prop: "checked"</code> and <code>event: "change"</code> so DOM booleans map cleanly to store booleans</li>
-          <li class="fragment">Title, notes, category, priority, and due date all reuse the same <code>todoModel()</code> helper</li>
-          <li class="fragment">The delete button is just <code>@click</code>, so event parts and model parts live together happily</li>
-          <li class="fragment">The card also mirrors state into <code>data-state</code> and <code>data-priority</code>, which keeps styling honest and declarative</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
-<input
-  model=${todoModel(todo.id, "selected", { prop: "checked", event: "change" })}
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>TodoItem</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs html">
+&lt;!-- prop: checked and event: change map DOM
+booleans cleanly to store booleans. --&gt;
+&lt;input
+  model="${todoModel(todo.id, 'selected', { prop: 'checked', event: 'change' })}"
   type="checkbox"
-/>
+/&gt;
 
-<input model=${todoModel(todo.id, "title")} />
+&lt;!-- Title, notes, category, priority, and due
+date all reuse the same todoModel() helper. --&gt;
+&lt;input model="${todoModel(todo.id, 'title')}" /&gt;
 
-<select model=${todoModel(todo.id, "priority", { event: "change" })}>
+&lt;select model="${todoModel(todo.id, 'priority', { event: 'change' })}"&gt;
   ${priorityOptions()}
-</select>
+&lt;/select&gt;
 
-<textarea model=${todoModel(todo.id, "notes")} rows="2"></textarea>
+&lt;textarea model="${todoModel(todo.id, 'notes')}" rows="2"&gt;&lt;/textarea&gt;
 
-<button @click=${() => removeTodo(todo.id)} data-variant="danger">
+&lt;!-- The delete button is just @click, so
+event parts and model parts live together. --&gt;
+&lt;button @click="${() => removeTodo(todo.id)}" data-variant="danger"&gt;
   ${t(language, "buttons.delete")}
-</button>
+&lt;/button&gt;
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

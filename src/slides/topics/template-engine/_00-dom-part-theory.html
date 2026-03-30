@@ -1,0 +1,48 @@
+<section data-topic="template-engine" data-menu-title="DOM Part theory">
+  <h3>The <mark>Template Engine</mark></h3>
+</section>
+<section data-topic="template-engine" data-menu-title="DOM Part theory">
+  <h4 balance>What a Template Engine <mark>actually does</mark>?</h4>
+  <small balance>
+    A <mark>Template Engine</mark> is responsible for <mark>efficiently updating</mark> the DOM based on changes in the underlying data. It identifies placeholders in the DOM and manages the rendering
+    process.
+  </small>
+</section>
+
+<section data-topic="template-engine" data-menu-title="DOM Part theory">
+  <h4 balance>What a DOM Part <mark>actually is</mark>?</h4>
+  <small balance>
+    A <mark>DOM Part</mark> is not a component and it is not even a DOM node. It is a remembered update slot inside a rendered template: a precise place where the engine knows how to write the next
+    value <mark>without rebuilding everything</mark> around it.
+  </small>
+</section>
+
+<!-- <section data-topic="template-engine">
+  <small>
+    <comparison>
+      <left>
+        <small>
+          <ul>
+            <li>Think of a <mark>part</mark> as a bookmark the template engine leaves behind when it finds a placeholder like text, an attribute, a property, or an event handler</li>
+            <li class="fragment">That <mark>bookmark</mark> stores two things: where updates must land and how that kind of update should be applied</li>
+            <li class="fragment">
+              So a <mark>child part</mark> manages DOM nodes, an <mark>attribute part</mark> manages attributes, a <mark>property part</mark> writes JavaScript properties, and an
+              <mark>event part</mark> owns listeners
+            </li>
+            <li class="fragment">The big idea is stability: the engine finds the slot once, then keeps reusing it instead of searching the DOM from scratch on every render</li>
+          </ul>
+        </small>
+      </left>
+      <right>
+        <small>
+          <ul>
+            <li>A <mark>part</mark> is the bridge between a template placeholder and the real browser surface that placeholder controls</li>
+            <li class="fragment">It is also the natural home for <mark>cleanup</mark>, because the same slot that subscribes to a signal should know how to unsubscribe when the binding changes</li>
+            <li class="fragment">That is why parts make incremental rendering possible: each slot can update locally without pretending the whole template is brand new</li>
+            <li class="fragment">In one sentence: a DOM part is a tiny persistent address for change</li>
+          </ul>
+        </small>
+      </right>
+    </comparison>
+  </small>
+</section> -->

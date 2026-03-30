@@ -1,24 +1,20 @@
 <section data-topic="signals" data-menu-title="EffectCollector">
-  <h4 balance><code>_effect-collector.js</code>: the runner that lets the graph touch the outside world</h4>
+  <h4 balance><mark>_effect-collector.js</mark>: the runner that lets the graph touch the outside world</h4>
   <small balance>
-    Effects are where reactivity becomes visible. Rendering, logging, syncing, measuring: none of those produce a derived value, so they live in a collector that tracks reads, resubscribes on every run, and hands reruns to the scheduler.
+    Effects are where <mark>reactivity becomes visible</mark>. Rendering, logging, syncing, measuring: none of those produce a derived value, so they live in a <mark>collector</mark> that tracks reads, resubscribes on every
+    run, and hands reruns to the <mark>scheduler</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment">The constructor initializes the callback, dependency map, and active flag, then immediately runs once to discover the first dependency graph</li>
-          <li class="fragment"><code>addDependency()</code> subscribes to each signal with <code>() =&gt; schedule(this)</code>, which means invalidations are batched instead of running effects synchronously</li>
-          <li class="fragment"><code>run()</code> first cleans stale subscriptions, then executes the callback inside <code>withCollector(this, ...)</code> so fresh reads rebuild the graph</li>
-          <li class="fragment"><code>stop()</code> is the disposer: it flips <code>active</code> off and unsubscribes from everything</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="signals">
+  <h4 balance><mark>EffectCollector</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export class EffectCollector {
   constructor(callback) {
+    // Initialize the callback, dependency map,
+    // and active flag, then run once to discover
+    // the graph.
     this.callback = callback
     this.dependencies = new Map()
     this.active = true
@@ -27,12 +23,17 @@ export class EffectCollector {
   }
 
   addDependency(signal) {
+    // Schedule reruns in batches instead of
+    // executing effects synchronously on every
+    // invalidation.
     if (this.dependencies.has(signal)) return
     const unsubscribe = signal.subscribe(() => schedule(this))
     this.dependencies.set(signal, unsubscribe)
   }
 
   run() {
+    // Clean stale subscriptions, then rebuild
+    // the dependency graph from fresh reads.
     if (!this.active) return
     this.cleanup()
     withCollector(this, () => {
@@ -41,7 +42,5 @@ export class EffectCollector {
   }
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

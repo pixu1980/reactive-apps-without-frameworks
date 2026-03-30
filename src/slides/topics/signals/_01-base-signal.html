@@ -1,46 +1,47 @@
 <section data-topic="signals" data-menu-title="BaseSignal">
-  <h4 balance><code>_base-signal.js</code>: the shared wiring for every signal</h4>
+  <h4 balance><mark>_base-signal.js</mark>: the shared wiring for every signal</h4>
   <small balance>
-    This file is deliberately tiny. It does not store app data and it does not compute derived values. Its whole job is to say: "I can be tracked, I can be subscribed to, and I can notify listeners when I change."
+    This file is deliberately tiny. It does not store app data and it does not compute derived values. Its whole job is to say: "I can be <mark>tracked</mark>, I can be <mark>subscribed to</mark>, and I can <mark>notify listeners</mark>
+    when I change."
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>subscribers</code> is a <code>Set</code>, so each listener is stored once and can be removed cleanly later</li>
-          <li class="fragment"><code>subscribe()</code> adds a callback and returns the tiny unsubscribe function that removes it from the set</li>
-          <li class="fragment"><code>track()</code> asks the collector context who is currently watching, then registers this signal as a dependency</li>
-          <li class="fragment"><code>notify()</code> walks a copied array of subscribers, so updates stay safe even if the set changes mid loop</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="signals">
+  <h4 balance><mark>BaseSignal</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export class BaseSignal {
   constructor() {
+    // subscribers is a Set, so each listener is
+    // stored once and can be removed cleanly later.
     this.subscribers = new Set()
     this.__isSignal = true
   }
 
   subscribe(subscriber) {
+    // subscribe() adds a callback and returns
+    // the tiny unsubscribe function.
     this.subscribers.add(subscriber)
     return () => this.subscribers.delete(subscriber)
   }
 
   track() {
+    // track() asks the collector context who is
+    // currently watching and registers this
+    // signal as a dependency.
     const current = getCurrentCollector()
     if (current) current.addDependency(this)
   }
 
   notify() {
+    // notify() walks a copied array of
+    // subscribers, so updates stay safe even if
+    // the set changes mid loop.
     for (const subscriber of [...this.subscribers]) {
       subscriber()
     }
   }
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

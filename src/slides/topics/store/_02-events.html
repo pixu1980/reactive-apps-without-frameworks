@@ -1,0 +1,39 @@
+<section data-topic="store" data-menu-title="CustomEvent">
+  <h4 balance><mark>emitChange()</mark>: the store speaks with <mark>CustomEvent</mark></h4>
+  <small balance>
+    A store is only useful if the rest of the app <mark>can "hear" it</mark>. Here the store does not call framework hooks or hidden subscriptions. It creates one explicit browser
+    <mark>CustomEvent</mark>, gives it a clear payload, and lets anything else <mark>listen</mark>.
+  </small>
+</section>
+
+<section data-topic="store">
+  <h4 balance><mark>EmitChange</mark></h4>
+  <article class="code-stack">
+    <pre>
+      <code data-trim data-line-numbers class="hljs javascript">
+emitChange(path, oldValue, newValue) {
+  // Every successful mutation becomes a
+  // browser native CustomEvent named
+  // store:change.
+  const detail = {
+    // detail carries the path plus cloned
+    // oldValue and newValue for safer debugging
+    // and replay.
+    path: pathToString(path),
+    oldValue: deepClone(oldValue),
+    newValue: deepClone(newValue),
+  }
+
+  // Dispatch through EventTarget so signals,
+  // persistence, logs, and app wiring can
+  // subscribe without tight coupling.
+  // Proxy notices the write, Reflect performs
+  // the real write, and CustomEvent tells the
+  // rest of the app what happened.
+  const event = new CustomEvent("store:change", { detail })
+  this.events.dispatchEvent(event)
+}
+      </code>
+    </pre>
+  </article>
+</section>

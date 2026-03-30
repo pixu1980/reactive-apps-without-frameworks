@@ -1,36 +1,35 @@
-<section data-topic="demo" data-menu-title="App shell">
-  <h4 balance><code>components/App/_App.js</code>: one real app shell, not one lonely button</h4>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>App.js</mark>: one real app shell, not one lonely button</h4>
   <small balance>
-    This chapter is where the tiny runtime stops being theory. The app view is a little house made of small rooms, and every room uses the same store, signals, and template helpers we already studied.
+    This chapter is where the <mark>tiny runtime</mark> stops being <mark>theory</mark>. The app view is a little house made of small rooms, and every room uses the same <mark>store</mark>, <mark>signals</mark>, and <mark>template helpers</mark> we already studied.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>appView()</code> assembles the header, stats, list, side panels, debug panel, and both modals</li>
-          <li class="fragment">Every room is just a function that returns <code>html</code>, so composition stays plain and readable</li>
-          <li class="fragment">No room owns secret state; they all read from the same shared truth box</li>
-          <li class="fragment">That is why this demo feels like a small product slice, not a stage prop</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
-export function appView() {
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>App</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+export function App() {
+  // App() assembles the header, stats, list,
+  // side panels, debug panel, and both modals.
+  // Every room is just a function that returns
+  // html, so composition stays plain.
+  // No room owns secret state; they all read
+  // from the same shared truth box.
   return html`
-    ${appHeader()}
-    <main data-component="app-shell">
-      ${statsRow()}
-      ${todoListPanel()}
-    </main>
-    <aside data-slot="controls">${filtersPanel()} ${bulkActionsPanel()}</aside>
-    <aside data-slot="debug-sidebar">${debugPanel()}</aside>
-    ${todoModal()} ${categoryModal()}
+    ${Header()}
+    &lt;main data-component="app-shell"&gt;
+      ${StatsRow()}
+      ${TodoList()}
+    &lt;/main&gt;
+    &lt;aside data-slot="controls"&gt;
+      ${Filters()} ${BulkActions()}
+    &lt;/aside&gt;
+    &lt;aside data-slot="debug-sidebar"&gt;
+      ${DebugPanel()}
+    &lt;/aside&gt;
+    ${TodoModal()} ${CategoryModal()}
   `
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

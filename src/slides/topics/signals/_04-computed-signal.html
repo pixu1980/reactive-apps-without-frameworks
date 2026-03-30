@@ -1,57 +1,65 @@
 <section data-topic="signals" data-menu-title="ComputedSignal">
-  <h4 balance><code>_computed-signal.js</code>: the lazy brain that derives new values</h4>
+  <h4 balance><mark>_computed-signal.js</mark>: the lazy brain that derives new values</h4>
   <small balance>
-    This is the heart of the graph. A computed signal does not own data like state does. Instead, it remembers how to derive data, which signals it depended on last time, and whether that cached answer is still trustworthy.
+    This is the <mark>heart of the graph</mark>. A computed signal does not own data like state does. Instead, it remembers how to <mark>derive data</mark>, which signals it depended on last time, and whether that <mark>cached answer</mark>
+    is still trustworthy.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment">The constructor stores the compute function, the equality check, the dependency map, the cached value, and the dirty flags that control recomputation</li>
-          <li class="fragment"><code>addDependency()</code> subscribes once per upstream signal and keeps the unsubscribe function in a <code>Map</code></li>
-          <li class="fragment"><code>evaluate()</code> is lazy: it does nothing until someone calls <code>get()</code> or <code>peek()</code>, then rebuilds the dependency graph from fresh reads</li>
-          <li class="fragment"><code>invalidate()</code> marks the value stale and notifies downstream subscribers, so effects and other computeds know they must reevaluate later</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
-constructor(compute, options = {}) {
-  super()
-  this.compute = compute
-  this.equals = options.equals ?? Object.is
-  this.dependencies = new Map()
-  this.cached = undefined
-  this.dirty = true
-  this.recomputing = false
-  this.boundInvalidate = this.invalidate.bind(this)
-}
+</section>
 
-addDependency(signal) {
-  if (this.dependencies.has(signal)) return
-  const unsubscribe = signal.subscribe(this.boundInvalidate)
-  this.dependencies.set(signal, unsubscribe)
-}
-
-evaluate() {
-  if (!this.dirty) return this.cached
-  if (this.recomputing) return this.cached
-  this.recomputing = true
-  this.cleanupDependencies()
-  try {
-    const nextValue = withCollector(this, () => this.compute())
-    if (this.dirty || !this.equals(this.cached, nextValue)) {
-      this.cached = nextValue
-    }
-    this.dirty = false
-    return this.cached
-  } finally {
+<section data-topic="signals">
+  <h4 balance><mark>ComputedSignal</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+export class ComputedSignal extends BaseSignal {
+  constructor(compute, options = {}) {
+    // Store the compute function, the equality
+    // check, the dependency map, the cache, and
+    // the dirty flags.
+    super()
+    this.compute = compute
+    this.equals = options.equals ?? Object.is
+    this.dependencies = new Map()
+    this.cached = undefined
+    this.dirty = true
     this.recomputing = false
+    // boundInvalidate is the callback upstream
+    // signals reuse to mark this computed stale.
+    this.boundInvalidate = this.invalidate.bind(this)
+  }
+
+  addDependency(signal) {
+    // Subscribe once per upstream signal and keep
+    // the unsubscribe handle in a Map.
+    if (this.dependencies.has(signal)) return
+    const unsubscribe = signal.subscribe(this.boundInvalidate)
+    this.dependencies.set(signal, unsubscribe)
+  }
+
+  evaluate() {
+    // evaluate() stays lazy until get() or peek()
+    // asks for the cached value.
+    if (!this.dirty) return this.cached
+    if (this.recomputing) return this.cached
+    this.recomputing = true
+    this.cleanupDependencies()
+    try {
+      // Fresh reads rebuild the dependency graph
+      // for the next invalidation cycle.
+      const nextValue = withCollector(this, () => this.compute())
+      if (
+        this.dirty ||
+        !this.equals(this.cached, nextValue)
+      ) {
+        this.cached = nextValue
+      }
+      this.dirty = false
+      return this.cached
+    } finally {
+      this.recomputing = false
+    }
   }
 }
-        </code></pre>
-      </article>
-    </right>
-  </comparison>
+      </code>
+    </pre>
+  </article>
 </section>

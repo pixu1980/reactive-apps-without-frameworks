@@ -1,47 +1,51 @@
 <section data-topic="signals" data-menu-title="Collector context">
-  <h4 balance><code>_collector-context.js</code>: the clipboard that answers "who is listening right now?"</h4>
+  <h4 balance><mark>_collector-context.js</mark>: the clipboard that answers "who is listening right now?"</h4>
   <small balance>
-    Reactive tracking looks magical until you reduce it to one simple rule: while a computed or effect runs, remember who it is. Then every signal read can attach itself to that active collector.
+    Reactive tracking looks magical until you reduce it to one simple rule: while a <mark>computed</mark> or <mark>effect</mark> runs, remember who it is. Then every signal read can attach itself to that <mark>active collector</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>collectorStack</code> is an array because collectors can nest; the active one always lives on the top</li>
-          <li class="fragment"><code>getCurrentCollector()</code> is the tiny read primitive used by <code>BaseSignal.track()</code></li>
-          <li class="fragment"><code>withCollector()</code> wraps execution in <code>push</code> and <code>pop</code> with <code>try/finally</code>, so cleanup happens even if the callback throws</li>
-          <li class="fragment"><code>withoutCollector()</code> temporarily silences tracking for the rare cases where a read should not create a dependency</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
-const collectorStack = []
+</section>
 
+<section data-topic="signals">
+  <h4 balance><mark>CollectorContext</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// collectors can nest, so the active one
+// always lives on top of the stack.
+const collectorStack = [];
+
+// getCurrentCollector() is the tiny read
+// primitive used by BaseSignal.track().
 export function getCurrentCollector() {
-  return collectorStack[collectorStack.length - 1]
+  return collectorStack[collectorStack.length - 1];
 }
 
 export function withCollector(collector, callback) {
-  pushCollector(collector)
+  // push + pop wrapped in try/finally
+  // guarantees cleanup even when callback
+  // throws.
+  pushCollector(collector);
+  
   try {
-    return callback()
+    return callback();
   } finally {
-    popCollector()
+    popCollector();
   }
 }
 
 export function withoutCollector(callback) {
-  const current = popCollector()
+  // Temporarily silence tracking when a read
+  // should not create a dependency edge.
+  const current = popCollector();
+  
   try {
-    return callback()
+    return callback();
   } finally {
-    if (current) pushCollector(current)
+    if (current) {
+      pushCollector(current);
+    }
   }
 }
-        </code></pre>
-      </article>
-    </right>
-  </comparison>
+      </code>
+    </pre>
+  </article>
 </section>

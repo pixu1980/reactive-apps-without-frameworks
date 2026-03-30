@@ -1,0 +1,36 @@
+<section data-topic="signals" data-menu-title="Signal theory">
+  <h3>The <mark>Signal</mark></h3>
+</section>
+<section data-topic="signals" data-menu-title="Signal theory">
+  <h4 balance>What a Signal <mark>actually is</mark>?</h4>
+  <small balance>
+    A signal is a <mark>reactive value wrapper</mark>. It gives the runtime <mark>one place to read</mark> and <mark>one stable way to know who must react later</mark> when that value changes.
+  </small>
+</section>
+
+<!-- <section data-topic="signals">
+  <small>
+    <comparison>
+      <left>
+        <small>
+          <ul>
+            <li>At the most basic level, a <mark>signal</mark> answers two questions: what is the value right now, and who should be notified if it changes</li>
+            <li class="fragment">That makes a signal more than a variable, because ordinary variables do not keep a relationship graph around them</li>
+            <li class="fragment">Some signals store concrete state, some derive new values from other signals, and some exist only to run side effects when dependencies move</li>
+            <li class="fragment">So the signal system is really a <mark>dependency graph</mark> made of producers and consumers, not just a box with data inside</li>
+          </ul>
+        </small>
+      </left>
+      <right>
+        <small>
+          <ul>
+            <li>The key concept is tracking: when code reads a signal during a reactive pass, the runtime records that relationship automatically</li>
+            <li class="fragment">The next key concept is invalidation: when an upstream signal changes, dependents become dirty or scheduled instead of recomputing blindly all the time</li>
+            <li class="fragment">This is why signals feel precise: updates follow actual data dependencies instead of broad component or page level rerenders</li>
+            <li class="fragment">In one sentence: a signal is a value with memory of who depends on it</li>
+          </ul>
+        </small>
+      </right>
+    </comparison>
+  </small>
+</section> -->

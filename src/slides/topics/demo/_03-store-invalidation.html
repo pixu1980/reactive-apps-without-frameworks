@@ -1,39 +1,37 @@
 <section data-topic="demo" data-menu-title="Store + bell">
-  <h4 balance><code>state/_store-setup.js</code>: the bell that says "something changed"</h4>
+  <h4 balance><mark>StoreSetup.js</mark>: the bell that says "something changed"</h4>
   <small balance>
-    The proxy store already knows when data changes. This file turns that fact into app behavior: save the snapshot, update the debug log, and ring one tiny signal so the rest of the UI can wake up.
+    The <mark>proxy store</mark> already knows when data changes. This file turns that fact into app behavior: <mark>save the snapshot</mark>, update the <mark>debug log</mark>, and ring one tiny <mark>signal</mark> so the rest of the <mark>UI</mark> can wake up.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>store</code> is the shared truth box created from the seed state</li>
-          <li class="fragment"><code>tickState</code> is a tiny signal used as a redraw bell, and <code>equals: () =&gt; false</code> means every ring counts</li>
-          <li class="fragment"><code>handleStoreChange()</code> appends a debug entry, persists a snapshot, then bumps <code>tickState</code></li>
-          <li class="fragment">This is the practical bridge between the store chapter and the signals chapter</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>StoreSetup</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// store is the shared truth box created from
+// the seed state.
 export const store = new Store(initialState)
 
+// tickState is a tiny redraw bell, and every
+// ring counts because equals() always says no.
 export const tickState = new Signal.State(0, {
   equals: () => false,
 })
 
 function handleStoreChange(event) {
+  // Append a debug entry, persist a snapshot,
+  // then bump tickState so the UI wakes up.
   if (!store.state.debug.paused && event.detail.path !== "debug.logs") {
     appendDebugLog(event.detail)
   }
+
   persistState()
   tickState.set(performance.now())
 }
 
+// This is the practical bridge between the
+// store chapter and the signals chapter.
 window.addEventListener("store:change", handleStoreChange)
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

@@ -1,24 +1,18 @@
 <section data-topic="demo" data-menu-title="Computed state">
-  <h4 balance><code>state/_computed.js</code>: little helpers that keep counting for us</h4>
+  <h4 balance><mark>Computed.js</mark>: little helpers that keep counting for us</h4>
   <small balance>
-    A five year old version is: these are tiny robots. You give them the raw toy pile, and they keep answering questions like "which todos should I show?" and "how many are done?"
+    A five year old version is: these are <mark>tiny robots</mark>. You give them the <mark>raw toy pile</mark>, and they keep answering questions like <mark>"which todos should I show?"</mark> and <mark>"how many are done?"</mark>
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>visibleTodos</code> listens to <code>tickState</code> and runs the whole filtering pipeline</li>
-          <li class="fragment"><code>summary</code> walks the full list once, then hands ready-made counts to smaller computed signals</li>
-          <li class="fragment"><code>totalCount</code>, <code>openCount</code>, <code>visibleCount</code>, and friends reuse <code>summary</code> instead of recounting everything</li>
-          <li class="fragment">Components read clean answers, not raw loops and conditions</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>ComputedState</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
 export const visibleTodos = new Signal.Computed(() => {
+  // visibleTodos listens to tickState and runs
+  // the whole filtering pipeline.
   tickState.get()
+
   return pipelineTodos(
     store.state.todos,
     store.state.filters,
@@ -27,20 +21,28 @@ export const visibleTodos = new Signal.Computed(() => {
 })
 
 export const summary = new Signal.Computed(() => {
+  // summary walks the full list once, then
+  // hands ready-made counts to smaller signals.
   tickState.get()
   const todos = store.state.todos
   let total = 0
   let completed = 0
   let selected = 0
+
   for (const todo of todos) {
     total += 1
-    if (todo.completed) completed += 1
+    if (todo.completed) completed += 1;
     if (todo.selected) selected += 1
   }
-  return { total, completed, open: total - completed, selected, visible: visibleTodos.get().length }
+
+  return {
+    total,
+    completed,
+    open: total - completed,
+    selected,
+    visible: visibleTodos.get().length,
+  }
 })
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>

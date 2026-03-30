@@ -1,38 +1,39 @@
 <section data-topic="demo" data-menu-title="Side panels">
-  <h4 balance><code>StatsRow</code>, <code>Filters</code>, <code>BulkActions</code>, <code>DebugPanel</code>: the same state wearing four costumes</h4>
+  <h4 balance><mark>StatsRow</mark>, <mark>Filters</mark>, <mark>BulkActions</mark>, <mark>DebugPanel</mark>: the same state wearing four costumes</h4>
   <small balance>
-    The panels around the list are great teaching material because they all read the same brain in different ways. Some show counts, some write filters, some call actions, and one simply watches every mutation happen.
+    The panels around the list are great teaching material because they all read the <mark>same brain</mark> in different ways. Some <mark>show counts</mark>, some <mark>write filters</mark>, some <mark>call actions</mark>, and one simply <mark>watches every mutation</mark> happen.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>StatsRow</code> prints computed counts, so cards stay dumb and the math stays centralized</li>
-          <li class="fragment"><code>Filters</code> writes into <code>filters.*</code> paths with <code>storeModel()</code>, which immediately changes <code>visibleTodos</code></li>
-          <li class="fragment"><code>BulkActions</code> calls real action functions like <code>selectAllVisible()</code> and <code>deleteSelected()</code></li>
-          <li class="fragment"><code>DebugPanel</code> even pauses itself through the same store, then renders the log with another <code>repeat()</code></li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+<section data-topic="demo" data-menu-title="App">
+  <h4 balance><mark>SupportPanels</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// StatsRow prints computed counts, so cards
+// stay dumb and the math stays centralized.
 ${statCard(totalCount, t(language, "stats.total"))}
-
-<input model=${storeModel("filters.search")} />
-
-<button @click=${() => selectAllVisible(visibleTodos)}>
-  ${t(language, "buttons.selectVisible")}
-</button>
-
-<input
-  model=${storeModel("debug.paused", { prop: "checked", event: "change" })}
-  type="checkbox"
-/>
-
-${repeat(debugLogs, (entry) => entry.id, debugLogEntry)}
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+    <pre><code data-trim data-line-numbers class="hljs html">
+&lt;!-- Filters write into filters.* paths with
+storeModel(), which immediately changes
+visibleTodos. --&gt;
+&lt;input model="${storeModel('filters.search')}" /&gt;
+
+&lt;!-- BulkActions calls real action functions. --&gt;
+&lt;button @click="${() => selectAllVisible(visibleTodos)}"&gt;
+  ${t(language, "buttons.selectVisible")}
+&lt;/button&gt;
+
+&lt;!-- DebugPanel even pauses itself through the
+same store. --&gt;
+&lt;input
+  model="${storeModel('debug.paused', { prop: 'checked', event: 'change' })}"
+  type="checkbox"
+/&gt;
+        </code></pre>
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// The log itself is rendered with another
+// repeat() call.
+${repeat(debugLogs, (entry) => entry.id, DebugLogEntry)}
+        </code></pre>
+  </article>
 </section>

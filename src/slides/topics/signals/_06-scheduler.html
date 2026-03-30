@@ -1,32 +1,34 @@
 <section data-topic="signals" data-menu-title="Scheduler">
-  <h4 balance><code>_scheduler.js</code>: the tiny batching loop that keeps rerenders calm</h4>
+  <h4 balance><mark>_scheduler.js</mark>: the tiny batching loop that keeps rerenders calm</h4>
   <small balance>
-    Without scheduling, three quick writes could mean three immediate reruns. This file is the polite traffic controller: collect jobs in a set, wait until the current JavaScript stack is done, then flush them once in a predictable batch.
+    Without <mark>scheduling</mark>, three quick writes could mean three immediate reruns. This file is the polite <mark>traffic controller</mark>: collect jobs in a set, wait until the current JavaScript stack is done, then
+    flush them once in a <mark>predictable batch</mark>.
   </small>
-  <comparison>
-    <left>
-      <small>
-        <ul>
-          <li class="fragment"><code>scheduled</code> is a <code>Set</code>, so the same effect can be invalidated many times but only appear once in the queue</li>
-          <li class="fragment"><code>flushing</code> prevents stacking multiple <code>queueMicrotask()</code> calls for the same flush cycle</li>
-          <li class="fragment">The microtask waits until the current call stack finishes, which is just enough batching for a tiny runtime like this</li>
-          <li class="fragment">The <code>while</code> loop matters: if one effect schedules more work during the flush, the scheduler drains that work before finishing</li>
-        </ul>
-      </small>
-    </left>
-    <right>
-      <article class="code-stack">
-        <pre><code data-trim data-line-numbers class="hljs javascript">
+</section>
+
+<section data-topic="signals">
+  <h4 balance><mark>Scheduler</mark></h4>
+  <article class="code-stack">
+    <pre><code data-trim data-line-numbers class="hljs javascript">
+// scheduled is a Set, so repeated
+// invalidations of the same effect collapse
+// into one queued job.
 const scheduled = new Set()
+// flushing prevents stacking multiple
+// queueMicrotask() calls for the same flush cycle.
 let flushing = false
 
 export function schedule(effect) {
+  // The microtask waits until the current call
+  // stack is done before the batch runs.
   scheduled.add(effect)
   if (flushing) return
   flushing = true
 
   queueMicrotask(() => {
     try {
+      // Keep draining until even work scheduled
+      // during the flush has finished.
       while (scheduled.size > 0) {
         const batch = [...scheduled]
         scheduled.clear()
@@ -40,7 +42,5 @@ export function schedule(effect) {
   })
 }
         </code></pre>
-      </article>
-    </right>
-  </comparison>
+  </article>
 </section>
