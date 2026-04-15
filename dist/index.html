@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang=en><meta charset=utf-8><title>Reactive Apps Without Frameworks</title><meta name=viewport content="width=device-width, initial-scale=1.0"><meta name=color-scheme content="light dark"><link rel=stylesheet href=https://pixu1980.github.io/reactive-apps-without-frameworks/reactive-apps-without-frameworks.d8a695b7.css><body>
+<!DOCTYPE html><html lang=en><meta charset=utf-8><title>Reactive Apps Without Frameworks</title><meta name=viewport content="width=device-width, initial-scale=1.0"><meta name=color-scheme content="light dark"><link rel=stylesheet href=https://pixu1980.github.io/reactive-apps-without-frameworks/talk-reactive-apps-without-frameworks.c31d616c.css><body>
     <main class=reveal>
       <div class=slides>
         <section intro balance>
@@ -148,7 +148,9 @@
     <small balance>
       <ul>
         <li class=fragment>Build a <mark>reactive UI stack</mark> from platform primitives, not from framework abstractions</li>
-        <li class=fragment>Centralize a <mark>Store</mark> emitting <mark>CustomEvents</mark>, sync with <mark>Signals</mark> to target precise <mark>DOM parts</mark> updates instead of diffing the whole tree</li>
+        <li class=fragment>
+          Centralize a <mark>Store</mark> emitting <mark>CustomEvents</mark>, sync with <mark>Signals</mark> to target precise <mark>DOM parts</mark> updates instead of diffing the whole tree
+        </li>
         <li class=fragment>Keep view authoring expressive with <mark>tagged templates</mark>, <mark>conditionals</mark>, <mark>directives</mark> and <mark>keyed loop</mark></li>
       </ul>
     </small>
@@ -173,7 +175,8 @@
 <section data-topic=store data-menu-title="Store theory">
   <h4 balance>What a Store <mark>actually is</mark>?</h4>
   <small balance>
-    A store is <mark>a shared state tree</mark> plus a <mark>notification contract</mark>. It gives the app a single source of <mark>truth</mark> for <mark>data</mark> and a predictable way to tell the rest of the application when <mark>data changes</mark>.
+    A store is <mark>a shared state tree</mark> plus a <mark>notification contract</mark>. It gives the app a single source of <mark>truth</mark> for <mark>data</mark> and a predictable way to tell
+    the rest of the application when <mark>data changes</mark>.
   </small>
 </section>
 
@@ -326,7 +329,8 @@ emitChange(path, oldValue, newValue) {
   <section data-topic=signals data-menu-title=BaseSignal>
   <h4 balance><mark>_base-signal.js</mark>: the shared wiring for every signal</h4>
   <small balance>
-    This file is deliberately tiny. It does not store app data and it does not compute derived values. Its whole job is to say: "I can be <mark>tracked</mark>, I can be <mark>subscribed to</mark>, and I can <mark>notify listeners</mark>
+    This file is deliberately tiny. It does not store app data and it does not compute derived values. Its whole job is to say: "I can be <mark>tracked</mark>, I can be <mark>subscribed to</mark>, and
+    I can <mark>notify listeners</mark>
     when I change."
   </small>
 </section>
@@ -422,7 +426,8 @@ export class StateSignal extends BaseSignal {
   <section data-topic=signals data-menu-title="Collector context">
   <h4 balance><mark>_collector-context.js</mark>: the clipboard that answers "who is listening right now?"</h4>
   <small balance>
-    Reactive tracking looks magical until you reduce it to one simple rule: while a <mark>computed</mark> or <mark>effect</mark> runs, remember who it is. Then every signal read can attach itself to that <mark>active collector</mark>.
+    Reactive tracking looks magical until you reduce it to one simple rule: while a <mark>computed</mark> or <mark>effect</mark> runs, remember who it is. Then every signal read can attach itself to
+    that <mark>active collector</mark>.
   </small>
 </section>
 
@@ -474,7 +479,8 @@ export function withoutCollector(callback) {
   <section data-topic=signals data-menu-title=ComputedSignal>
   <h4 balance><mark>_computed-signal.js</mark>: the lazy brain that derives new values</h4>
   <small balance>
-    This is the <mark>heart of the graph</mark>. A computed signal does not own data like state does. Instead, it remembers how to <mark>derive data</mark>, which signals it depended on last time, and whether that <mark>cached answer</mark>
+    This is the <mark>heart of the graph</mark>. A computed signal does not own data like state does. Instead, it remembers how to <mark>derive data</mark>, which signals it depended on last time, and
+    whether that <mark>cached answer</mark>
     is still trustworthy.
   </small>
 </section>
@@ -540,8 +546,8 @@ export class ComputedSignal extends BaseSignal {
   <section data-topic=signals data-menu-title=EffectCollector>
   <h4 balance><mark>_effect-collector.js</mark>: the runner that lets the graph touch the outside world</h4>
   <small balance>
-    Effects are where <mark>reactivity becomes visible</mark>. Rendering, logging, syncing, measuring: none of those produce a derived value, so they live in a <mark>collector</mark> that tracks reads, resubscribes on every
-    run, and hands reruns to the <mark>scheduler</mark>.
+    Effects are where <mark>reactivity becomes visible</mark>. Rendering, logging, syncing, measuring: none of those produce a derived value, so they live in a <mark>collector</mark> that tracks
+    reads, resubscribes on every run, and hands reruns to the <mark>scheduler</mark>.
   </small>
 </section>
 
@@ -587,8 +593,8 @@ export class EffectCollector {
   <section data-topic=signals data-menu-title=Scheduler>
   <h4 balance><mark>_scheduler.js</mark>: the tiny batching loop that keeps rerenders calm</h4>
   <small balance>
-    Without <mark>scheduling</mark>, three quick writes could mean three immediate reruns. This file is the polite <mark>traffic controller</mark>: collect jobs in a set, wait until the current JavaScript stack is done, then
-    flush them once in a <mark>predictable batch</mark>.
+    Without <mark>scheduling</mark>, three quick writes could mean three immediate reruns. This file is the polite <mark>traffic controller</mark>: collect jobs in a set, wait until the current
+    JavaScript stack is done, then flush them once in a <mark>predictable batch</mark>.
   </small>
 </section>
 
@@ -634,8 +640,8 @@ export function schedule(effect) {
   <section data-topic=signals data-menu-title="Public API">
   <h4 balance><mark>index.js</mark>: the small public surface the rest of the app actually imports</h4>
   <small balance>
-    Internal files are easier to teach when they stay tiny and focused. The outside world, though, wants one <mark>friendly door</mark>. This module assembles that door: constructors, one <mark>escape hatch</mark> for
-    untracked reads, one <mark>type guard</mark>, and one helper to <mark>create effects</mark>.
+    Internal files are easier to teach when they stay tiny and focused. The outside world, though, wants one <mark>friendly door</mark>. This module assembles that door: constructors, one
+    <mark>escape hatch</mark> for untracked reads, one <mark>type guard</mark>, and one helper to <mark>create effects</mark>.
   </small>
 </section>
 
@@ -703,7 +709,8 @@ export function effect(callback) {
   <section data-topic=template-engine data-menu-title=template-helpers>
   <h4 balance><mark>_template-helpers.js</mark>: the tiny IR every template expression becomes</h4>
   <small balance>
-    Before the engine can render anything, it needs one <mark>honest shape</mark> for "a template", and one <mark>honest shape</mark> for "a directive". This file gives us exactly that, with almost no <mark>magic</mark>.
+    Before the engine can render anything, it needs one <mark>honest shape</mark> for "a template", and one <mark>honest shape</mark> for "a directive". This file gives us exactly that, with almost no
+    <mark>magic</mark>.
   </small>
 </section>
 
@@ -751,7 +758,8 @@ export function repeat(items, key, renderItem) {
   <section data-topic=template-engine data-menu-title=Part>
   <h4 balance><mark>_part.js</mark>: one tiny base class for reactive DOM slots</h4>
   <small balance>
-    A lot of the engine becomes easier to understand once you see this file: a DOM part is just a place that can <mark>hold a value</mark>, optionally <mark>subscribe to a signal</mark>, and <mark>clean itself up</mark> when the source changes.
+    A lot of the engine becomes easier to understand once you see this file: a DOM part is just a place that can <mark>hold a value</mark>, optionally <mark>subscribe to a signal</mark>, and
+    <mark>clean itself up</mark> when the source changes.
   </small>
 </section>
 
@@ -795,7 +803,8 @@ export class Part {
   <section data-topic=template-engine data-menu-title=EventPart>
   <h4 balance><mark>_event-part.js</mark>: the whole event system in one very small file</h4>
   <small balance>
-    This slide is a nice reminder that not every runtime primitive needs to be <mark>clever</mark>. Event bindings are not tracked values. They are simply <mark>listener replacement</mark> with <mark>disciplined cleanup</mark>.
+    This slide is a nice reminder that not every runtime primitive needs to be <mark>clever</mark>. Event bindings are not tracked values. They are simply <mark>listener replacement</mark> with
+    <mark>disciplined cleanup</mark>.
   </small>
 </section>
 
@@ -834,7 +843,8 @@ export class EventPart {
   <section data-topic=template-engine data-menu-title=PropertyPart>
   <h4 balance><mark>_property-part.js</mark>: write to DOM properties, not HTML text</h4>
   <small balance>
-    Attributes are <mark>strings on markup</mark>. Properties are <mark>live JavaScript fields</mark> on elements. This part exists for the moments when the engine must talk to the <mark>actual DOM object</mark>, not to <mark>serialized HTML</mark>.
+    Attributes are <mark>strings on markup</mark>. Properties are <mark>live JavaScript fields</mark> on elements. This part exists for the moments when the engine must talk to the
+    <mark>actual DOM object</mark>, not to <mark>serialized HTML</mark>.
   </small>
 </section>
 
@@ -876,7 +886,8 @@ export class PropertyPart extends Part {
   <section data-topic=template-engine data-menu-title=AttributePart>
   <h4 balance><mark>_attribute-part.js</mark>: plain attributes plus the most opinionated directive in the engine</h4>
   <small balance>
-    This file starts simple and then becomes surprisingly sophisticated. It can write <mark>ordinary attributes</mark>, <mark>subscribe to signals</mark>, and run the two way <mark><code>model()</code></mark> directive with <mark>cursor preservation</mark> and a <mark>select specific bug fix</mark>.
+    This file starts simple and then becomes surprisingly sophisticated. It can write <mark>ordinary attributes</mark>, <mark>subscribe to signals</mark>, and run the two way
+    <mark><code>model()</code></mark> directive with <mark>cursor preservation</mark> and a <mark>select specific bug fix</mark>.
   </small>
 </section>
 
@@ -923,7 +934,8 @@ const syncAfterRender = () =&gt; {
   <section data-topic=template-engine data-menu-title="range helpers">
   <h4 balance><mark>_range.js</mark>: comment markers become a real DOM editing toolkit</h4>
   <small balance>
-    Proposed <mark>DOM Parts</mark> would give the browser native update slots. We do not have that here, so this file builds the <mark>minimum surgery kit</mark> needed to treat two comments as a movable, <mark>replaceable DOM range</mark>.
+    Proposed <mark>DOM Parts</mark> would give the browser native update slots. We do not have that here, so this file builds the <mark>minimum surgery kit</mark> needed to treat two comments as a
+    movable, <mark>replaceable DOM range</mark>.
   </small>
 </section>
 
@@ -964,7 +976,8 @@ export function moveRangeBefore(start, end, referenceNode) {
   <section data-topic=template-engine data-menu-title=ChildNodePart>
   <h4 balance><mark>_child-node-part.js</mark>: the part that can render almost anything</h4>
   <small balance>
-    If <mark>AttributePart</mark> speaks to element fields, <mark>ChildNodePart</mark> speaks to the <mark>area between two markers</mark>. <mark>Text</mark>, <mark>nodes</mark>, <mark>nested templates</mark>, <mark>keyed repeat</mark>, and <mark>signal driven lists</mark>: this is the heavyweight operator of the engine.
+    If <mark>AttributePart</mark> speaks to element fields, <mark>ChildNodePart</mark> speaks to the <mark>area between two markers</mark>. <mark>Text</mark>, <mark>nodes</mark>,
+    <mark>nested templates</mark>, <mark>keyed repeat</mark>, and <mark>signal driven lists</mark>: this is the heavyweight operator of the engine.
   </small>
 </section>
 
@@ -1016,7 +1029,8 @@ commitRepeat({ items, key, renderItem }) {
   <section data-topic=template-engine data-menu-title="parts barrel">
   <h4 balance><mark>_parts.js</mark>: one import seam for all DOM part implementations</h4>
   <small balance>
-    This file is short, but it improves the <mark>architecture</mark> in a very practical way. The template instance builder can depend on <mark>one barrel</mark> instead of juggling a handful of sibling imports every time it maps descriptors to <mark>concrete parts</mark>.
+    This file is short, but it improves the <mark>architecture</mark> in a very practical way. The template instance builder can depend on <mark>one barrel</mark> instead of juggling a handful of
+    sibling imports every time it maps descriptors to <mark>concrete parts</mark>.
   </small>
 </section>
 
@@ -1039,7 +1053,8 @@ export { PropertyPart } from "./_property-part.js"
   <section data-topic=template-engine data-menu-title="instance ref">
   <h4 balance><mark>_template-instance-ref.js</mark>: a tiny registry that breaks a circular import cleanly</h4>
   <small balance>
-    This is one of those files that makes seasoned engineers smile. Instead of pretending <mark>circular imports</mark> do not exist, the runtime isolates the cycle behind a <mark>tiny register and read API</mark> with one <mark>loud failure mode</mark>.
+    This is one of those files that makes seasoned engineers smile. Instead of pretending <mark>circular imports</mark> do not exist, the runtime isolates the cycle behind a
+    <mark>tiny register and read API</mark> with one <mark>loud failure mode</mark>.
   </small>
 </section>
 
@@ -1073,7 +1088,8 @@ export function getTemplateInstanceClass() {
   <section data-topic=template-engine data-menu-title=TemplateInstance>
   <h4 balance><mark>_template-instance.js</mark>: compile once, clone fast, bind precise parts</h4>
   <small balance>
-    This is the <mark>parser</mark> and the <mark>materializer</mark>. It turns template literals into <mark>cached descriptors</mark>, then turns those descriptors into <mark>concrete part objects</mark> inside a cloned fragment. If the engine feels magical anywhere, it is here.
+    This is the <mark>parser</mark> and the <mark>materializer</mark>. It turns template literals into <mark>cached descriptors</mark>, then turns those descriptors into
+    <mark>concrete part objects</mark> inside a cloned fragment. If the engine feels magical anywhere, it is here.
   </small>
 </section>
 
@@ -1158,7 +1174,8 @@ export function render(result, container) {
   <section data-topic=template-engine data-menu-title="Public API">
   <h4 balance><mark>index.js</mark>: the single friendly import path the rest of the app sees</h4>
   <small balance>
-    After all that plumbing, the public entry is intentionally <mark>boring</mark>. That is the mark of a <mark>good boundary</mark>. Internals can be rich, but the caller should get one <mark>calm door</mark> and a <mark>small set of names</mark>.
+    After all that plumbing, the public entry is intentionally <mark>boring</mark>. That is the mark of a <mark>good boundary</mark>. Internals can be rich, but the caller should get one
+    <mark>calm door</mark> and a <mark>small set of names</mark>.
   </small>
 </section>
 
@@ -1187,7 +1204,8 @@ export {
   <section data-topic=demo data-menu-title=App>
   <h4 balance><mark>App.js</mark>: one real app shell, not one lonely button</h4>
   <small balance>
-    This chapter is where the <mark>tiny runtime</mark> stops being <mark>theory</mark>. The app view is a little house made of small rooms, and every room uses the same <mark>store</mark>, <mark>signals</mark>, and <mark>template helpers</mark> we already studied.
+    This chapter is where the <mark>tiny runtime</mark> stops being <mark>theory</mark>. The app view is a little house made of small rooms, and every room uses the same <mark>store</mark>,
+    <mark>signals</mark>, and <mark>template helpers</mark> we already studied.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1223,7 +1241,8 @@ export function App() {
   <section data-topic=demo data-menu-title="State shape">
   <h4 balance><mark>Data.js</mark>: the toy box where every piece starts</h4>
   <small balance>
-    Before the <mark>store</mark> can react, it needs one complete <mark>starting picture</mark>. This file builds that picture in one place, so <mark>reset</mark>, <mark>persistence</mark>, and <mark>rendering</mark> all agree on the same <mark>state shape</mark>.
+    Before the <mark>store</mark> can react, it needs one complete <mark>starting picture</mark>. This file builds that picture in one place, so <mark>reset</mark>, <mark>persistence</mark>, and
+    <mark>rendering</mark> all agree on the same <mark>state shape</mark>.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1282,7 +1301,8 @@ export function createSeedData() {
   <section data-topic=demo data-menu-title="Store + bell">
   <h4 balance><mark>StoreSetup.js</mark>: the bell that says "something changed"</h4>
   <small balance>
-    The <mark>proxy store</mark> already knows when data changes. This file turns that fact into app behavior: <mark>save the snapshot</mark>, update the <mark>debug log</mark>, and ring one tiny <mark>signal</mark> so the rest of the <mark>UI</mark> can wake up.
+    The <mark>proxy store</mark> already knows when data changes. This file turns that fact into app behavior: <mark>save the snapshot</mark>, update the <mark>debug log</mark>, and ring one tiny
+    <mark>signal</mark> so the rest of the <mark>UI</mark> can wake up.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1320,7 +1340,8 @@ window.addEventListener("store:change", handleStoreChange)
   <section data-topic=demo data-menu-title="Computed state">
   <h4 balance><mark>Computed.js</mark>: little helpers that keep counting for us</h4>
   <small balance>
-    A five year old version is: these are <mark>tiny robots</mark>. You give them the <mark>raw toy pile</mark>, and they keep answering questions like <mark>"which todos should I show?"</mark> and <mark>"how many are done?"</mark>
+    A five year old version is: these are <mark>tiny robots</mark>. You give them the <mark>raw toy pile</mark>, and they keep answering questions like <mark>"which todos should I show?"</mark> and
+    <mark>"how many are done?"</mark>
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1369,7 +1390,8 @@ export const summary = new Signal.Computed(() =&gt; {
   <section data-topic=demo data-menu-title="Filter pipe">
   <h4 balance><mark>Pipeline.js</mark>: one filter pipe, one job at a time</h4>
   <small balance>
-    Instead of making lots of <mark>temporary arrays</mark>, the app lets todos walk through a <mark>pipe</mark>. Each filter looks at one todo, decides yes or no, and passes only the <mark>matching ones</mark> to the next step.
+    Instead of making lots of <mark>temporary arrays</mark>, the app lets todos walk through a <mark>pipe</mark>. Each filter looks at one todo, decides yes or no, and passes only the
+    <mark>matching ones</mark> to the next step.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1408,7 +1430,8 @@ export function pipelineTodos(todos, filters, language) {
   <section data-topic=demo data-menu-title=Actions>
   <h4 balance><mark>Actions.js</mark>: the hands that move the toys</h4>
   <small balance>
-    Actions are the places where the app says <mark>"change the world now"</mark>. They are <mark>boring on purpose</mark>: find something, replace it, add it, remove it, or <mark>rebuild the whole state</mark> from the seed.
+    Actions are the places where the app says <mark>"change the world now"</mark>. They are <mark>boring on purpose</mark>: find something, replace it, add it, remove it, or
+    <mark>rebuild the whole state</mark> from the seed.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1448,7 +1471,9 @@ export function resetDemo() {
 
   <section data-topic=demo data-menu-title="Render loop">
   <h4 balance><mark>RenderLoop.js</mark>: when the bell rings, paint again</h4>
-  <small balance> This is the slide where the <mark>chapters shake hands</mark>. <mark>Signals</mark> watch, the <mark>template engine</mark> renders, and the <mark>DOM</mark> changes for real. </small>
+  <small balance>
+    This is the slide where the <mark>chapters shake hands</mark>. <mark>Signals</mark> watch, the <mark>template engine</mark> renders, and the <mark>DOM</mark> changes for real.
+  </small>
 </section>
 <section data-topic=demo data-menu-title=App>
   <h4 balance><mark>RenderLoop</mark></h4>
@@ -1478,7 +1503,10 @@ tickState.set(performance.now())
 
   <section data-topic=demo data-menu-title="model() helpers">
   <h4 balance><mark>Helpers.js</mark>: two tiny translators for all our inputs</h4>
-  <small balance> We do not want every <mark>text field</mark> and <mark>checkbox</mark> to remember how to read and write the <mark>store</mark>. So the app builds <mark>two small helpers</mark>, and then reuses them everywhere. </small>
+  <small balance>
+    We do not want every <mark>text field</mark> and <mark>checkbox</mark> to remember how to read and write the <mark>store</mark>. So the app builds <mark>two small helpers</mark>, and then reuses
+    them everywhere.
+  </small>
 </section>
 <section data-topic=demo data-menu-title=App>
   <h4 balance><mark>ModelHelpers</mark></h4>
@@ -1514,7 +1542,8 @@ export function todoModel(todoId, field, options = {}) {
   <section data-topic=demo data-menu-title=Header>
   <h4 balance><mark>Header.js</mark>: big buttons on top, tiny writes underneath</h4>
   <small balance>
-    The header looks rich, but its behavior is simple. <mark>Buttons</mark> call actions, selects use <mark>storeModel()</mark>, and the rest of the app updates because the same <mark>shared store</mark> keeps listening.
+    The header looks rich, but its behavior is simple. <mark>Buttons</mark> call actions, selects use <mark>storeModel()</mark>, and the rest of the app updates because the same
+    <mark>shared store</mark> keeps listening.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1550,8 +1579,8 @@ preferences so CSS and translations can react. --&gt;
   <section data-topic=demo data-menu-title="Todo card">
   <h4 balance><mark>TodoItem.js</mark>: one card where <mark>model()</mark> shows its magic</h4>
   <small balance>
-    This is the best "look, it is really used" slide. One <mark>todo card</mark> has <mark>checkboxes</mark>, <mark>text inputs</mark>, <mark>selects</mark>, a <mark>textarea</mark>, and a <mark>delete button</mark>, but they all stay tiny because the helpers do the boring
-    work.
+    This is the best "look, it is really used" slide. One <mark>todo card</mark> has <mark>checkboxes</mark>, <mark>text inputs</mark>, <mark>selects</mark>, a <mark>textarea</mark>, and a
+    <mark>delete button</mark>, but they all stay tiny because the helpers do the boring work.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1586,7 +1615,10 @@ event parts and model parts live together. --&gt;
 
   <section data-topic=demo data-menu-title="repeat() list">
   <h4 balance><mark>TodoList.js</mark>: one render function becomes a whole living list</h4>
-  <small balance> A single todo card is nice, but the real trick is <mark>many cards that stay stable</mark> when <mark>filters</mark>, <mark>sorting</mark>, or <mark>language</mark> change. That is where <mark>repeat()</mark> earns its lunch. </small>
+  <small balance>
+    A single todo card is nice, but the real trick is <mark>many cards that stay stable</mark> when <mark>filters</mark>, <mark>sorting</mark>, or <mark>language</mark> change. That is where
+    <mark>repeat()</mark> earns its lunch.
+  </small>
 </section>
 <section data-topic=demo data-menu-title=App>
   <h4 balance><mark>TodoList</mark></h4>
@@ -1620,7 +1652,8 @@ export function TodoList() {
   <section data-topic=demo data-menu-title="Side panels">
   <h4 balance><mark>StatsRow</mark>, <mark>Filters</mark>, <mark>BulkActions</mark>, <mark>DebugPanel</mark>: the same state wearing four costumes</h4>
   <small balance>
-    The panels around the list are great teaching material because they all read the <mark>same brain</mark> in different ways. Some <mark>show counts</mark>, some <mark>write filters</mark>, some <mark>call actions</mark>, and one simply <mark>watches every mutation</mark> happen.
+    The panels around the list are great teaching material because they all read the <mark>same brain</mark> in different ways. Some <mark>show counts</mark>, some <mark>write filters</mark>, some
+    <mark>call actions</mark>, and one simply <mark>watches every mutation</mark> happen.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1660,7 +1693,8 @@ ${repeat(debugLogs, (entry) =&gt; entry.id, DebugLogEntry)}
   <section data-topic=demo data-menu-title="Modals + draft">
   <h4 balance><mark>TodoModal</mark> and <mark>CategoryModal</mark>: popups are just more state</h4>
   <small balance>
-    A common beginner mistake is to think <mark>dialogs</mark> need <mark>special magic</mark>. Here they do not. They simply open when the store says open, and their fields write into <mark>shared state</mark> just like the rest of the app.
+    A common beginner mistake is to think <mark>dialogs</mark> need <mark>special magic</mark>. Here they do not. They simply open when the store says open, and their fields write into
+    <mark>shared state</mark> just like the rest of the app.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1695,7 +1729,8 @@ addCategory(), so modals stay thin. --&gt;
   <section data-topic=demo data-menu-title="Open demo">
   <h4 balance>The runtime is not trapped in slides. It opens as a <mark>real app tab</mark>.</h4>
   <small balance>
-    No deck-only sandbox. The audience can open the same <mark>standalone demo</mark> we publish, poke it, and see the exact <mark>store</mark>, <mark>signals</mark>, <mark>directives</mark>, and <mark>render loop</mark> we just walked through.
+    No deck-only sandbox. The audience can open the same <mark>standalone demo</mark> we publish, poke it, and see the exact <mark>store</mark>, <mark>signals</mark>, <mark>directives</mark>, and
+    <mark>render loop</mark> we just walked through.
   </small>
 </section>
 <section data-topic=demo data-menu-title=App>
@@ -1719,7 +1754,9 @@ addCategory(), so modals stay thin. --&gt;
       <li class=fragment>The <mark>store</mark> is the <mark>truth box</mark>, and every part of the app keeps reading from the same box</li>
       <li class=fragment><mark>tickState</mark> is the bell that wakes computed signals and render effects after each mutation</li>
       <li class=fragment><mark>model()</mark> and <mark>repeat()</mark> are not cute helpers; they are the practical fingers that touch inputs and lists all day long</li>
-      <li class=fragment>A <mark>tiny runtime</mark> can power a <mark>surprisingly rich interface</mark>, but the real product question is still how much of that runtime you want to <mark>own yourself</mark></li>
+      <li class=fragment>
+        A <mark>tiny runtime</mark> can power a <mark>surprisingly rich interface</mark>, but the real product question is still how much of that runtime you want to <mark>own yourself</mark>
+      </li>
     </ul>
   </small>
 </section>
@@ -1731,7 +1768,8 @@ addCategory(), so modals stay thin. --&gt;
   <section data-transition=convex>
     <h4>Wrapping <mark>up</mark></h4>
     <small balance>
-      The <mark>DOM</mark> can move back to the center of the rendering story. <mark>Signals</mark>, <mark>parts</mark> and <mark>tagged templates</mark> are enough to build a reactive app, as long as we stay honest about the <mark>missing abstractions</mark> and the <mark>engineering cost</mark>.
+      The <mark>DOM</mark> can move back to the center of the rendering story. <mark>Signals</mark>, <mark>parts</mark> and <mark>tagged templates</mark> are enough to build a reactive app, as long as
+      we stay honest about the <mark>missing abstractions</mark> and the <mark>engineering cost</mark>.
     </small>
   </section>
   <section data-transition=convex>
@@ -1762,7 +1800,10 @@ addCategory(), so modals stay thin. --&gt;
   </section>
   
   <section data-transition=convex>
-    <p balance><mark>Vanilla JS</mark> is not about giving up <mark>DX</mark>. It is about understanding which abstractions are <mark>essential</mark>, which are <mark>optional</mark>, and how far the <mark>platform</mark> can already take us.</p>
+    <p balance>
+      <mark>Vanilla JS</mark> is not about giving up <mark>DX</mark>. It is about understanding which abstractions are <mark>essential</mark>, which are <mark>optional</mark>, and how far the
+      <mark>platform</mark> can already take us.
+    </p>
   </section>
 </section>
 
@@ -1781,8 +1822,8 @@ addCategory(), so modals stay thin. --&gt;
     </figure>
     <figure>
       <picture>
-        <source srcset=https://pixu1980.github.io/reactive-apps-without-frameworks/slides-repo.6ae93035.webp type=image/webp>
-        <img src=https://pixu1980.github.io/reactive-apps-without-frameworks/slides-repo.d845ad1f.png alt="Slides Repo on Github">
+        <source srcset=https://pixu1980.github.io/reactive-apps-without-frameworks/slides-repo.d183e028.webp type=image/webp>
+        <img src=https://pixu1980.github.io/reactive-apps-without-frameworks/slides-repo.4fb6490a.png alt="Slides Repo on Github">
       </picture>
       <figcaption>
         <small>Slides Repo</small>
@@ -1859,6 +1900,6 @@ addCategory(), so modals stay thin. --&gt;
 </a>
 
     </main>
-    <script src=https://pixu1980.github.io/reactive-apps-without-frameworks/reactive-apps-without-frameworks.1e9352b9.js type=module></script>
+    <script src=https://pixu1980.github.io/reactive-apps-without-frameworks/talk-reactive-apps-without-frameworks.180a1eab.js type=module></script>
   
 
